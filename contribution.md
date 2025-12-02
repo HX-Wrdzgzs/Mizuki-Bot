@@ -26,6 +26,5 @@
 ### 🛠️ 技术栈致谢
 本项目同时也使用了以下优秀的开源项目与服务：
 
-*   **Framework**: NoneBot2 / Koishi / Hakurui
----
-*Created with ❤️ by HX-Wrdzgzs ♿*
+*   **Framework**: NoneBot2 / Koishi / Hakurui---
+*Created with ❤️ by HX-Wrdzgzs*
