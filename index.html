@@ -17,122 +17,114 @@
       --navbar-height: 60px;
     }
 
-    /* 1. 顶部磨砂导航条 (App Bar) */
+    /* 全局过渡动画 (平滑切换日夜模式) */
+    body, .sidebar, body::before, .content, .card-link {
+      transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease !important;
+    }
+
+    /* 1. 顶部磨砂导航条背景 (Layer 1) */
     body::before {
       content: "";
       position: fixed; top: 0; left: 0; width: 100%; height: var(--navbar-height);
-      background-color: rgba(255, 255, 255, 0.9); /* 稍微不透明一点 */
-      backdrop-filter: blur(10px);
-      z-index: 99;
+      background-color: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+      z-index: 1000; /* 层级 1000 */
       border-bottom: 1px solid rgba(0,0,0,0.05);
-      transition: background-color 0.3s;
     }
-    body.docsify-dark-mode::before {
-      background-color: rgba(26, 26, 26, 0.9);
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-
-    /* 2. 强制修复三道杠 (菜单) 位置 */
+    
+    /* 2. 强制修复三道杠 (Layer 3 - 最顶层) */
     .sidebar-toggle {
       position: fixed !important;
       top: 0 !important;
       left: 0 !important;
-      width: 60px !important; /* 加大点击区域 */
+      width: 60px !important;
       height: 60px !important;
-      padding: 18px !important; /* 调整内部间距 */
-      z-index: 101 !important;
+      padding: 18px !important;
+      z-index: 1002 !important; /* 层级最高，确保能点到 */
       background: transparent !important;
-      color: var(--mizuki-pink) !important;
+    }
+    /* 修复三道杠颜色 */
+    .sidebar-toggle span {
+      background-color: var(--mizuki-pink) !important;
     }
 
-    /* 3. 自定义顶部 Logo 区域 */
+    /* 3. 顶部 Logo 区域 (Layer 2) */
     .top-logo-area {
       position: fixed;
-      top: 0;
-      left: 50px; /* 躲开三道杠 */
+      top: 0; left: 50px; /* 躲开三道杠 */
       height: 60px;
-      display: flex;
-      align-items: center;
-      z-index: 101;
-      pointer-events: none; /* 让点击穿透，不挡操作 */
+      display: flex; align-items: center;
+      z-index: 1001; /* 比背景高，比菜单低 */
+      cursor: pointer; /* 鼠标变手型 */
+      user-select: none;
     }
     .top-logo-img {
       width: 32px; height: 32px;
       border-radius: 50%;
       border: 2px solid var(--mizuki-pink);
-      margin-right: 8px;
+      margin-right: 10px;
+      box-shadow: 0 0 8px rgba(233, 126, 179, 0.3);
     }
     .top-logo-text {
-      font-weight: 900;
-      font-size: 18px;
+      font-weight: 900; font-size: 18px;
       background: linear-gradient(135deg, var(--mizuki-pink) 0%, var(--niigo-purple) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
 
-    /* 4. 右上角日夜切换按钮 */
-    #docsify-darklight-theme-bit {
-      position: fixed !important;
-      top: 15px !important;
-      right: 15px !important;
-      z-index: 101 !important;
+    /* 4. 夜间模式深度适配 */
+    body.docsify-dark-mode::before {
+      background-color: rgba(26, 26, 26, 0.95); /* 顶部变黑 */
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    body.docsify-dark-mode .sidebar-toggle span {
+      background-color: #E97EB3 !important; /* 夜间模式三道杠依然粉色 */
     }
 
-    /* 5. 内容区域下移，防止被顶部遮挡 */
+    /* 5. 布局调整 */
     .content { padding-top: 70px !important; max-width: 900px; }
+    #docsify-darklight-theme-bit { position: fixed !important; top: 15px !important; right: 15px !important; z-index: 1002 !important; }
 
-    /* 6. 搜索框美化 (在侧边栏顶部) */
-    .sidebar .search {
-      margin-top: 20px;
-      border-bottom: none !important;
-    }
+    /* 6. 搜索框美化 */
+    .sidebar .search { margin-top: 20px; border-bottom: none !important; }
     .sidebar .search input {
-      border-radius: 20px;
-      border: 1px solid rgba(0,0,0,0.1);
-      background: rgba(0,0,0,0.03);
-      padding: 10px 15px;
-    }
-
-    /* 其他美化样式 */
-    a { color: var(--mizuki-pink); text-decoration: none; }
-    .sidebar-nav li.active > a {
-      border-right: none;
-      border-left: 4px solid var(--mizuki-pink);
-      background: linear-gradient(to right, rgba(233,126,179,0.1), transparent);
-      color: var(--mizuki-pink) !important;
-      padding-left: 10px;
+      border-radius: 20px; border: 1px solid rgba(0,0,0,0.1);
+      background: rgba(0,0,0,0.03); padding: 10px 15px;
     }
     
-    /* 侧边栏背景 */
-    .sidebar { padding-top: 0; background-color: rgba(255,255,255,0.98); }
+    /* 其他细节 */
+    a { color: var(--mizuki-pink); text-decoration: none; }
+    .sidebar-nav li.active > a {
+      border-left: 4px solid var(--mizuki-pink);
+      background: linear-gradient(to right, rgba(233,126,179,0.1), transparent);
+      color: var(--mizuki-pink) !important; padding-left: 10px; border-right: none;
+    }
+    .sidebar { background-color: rgba(255,255,255,0.98); }
     body.docsify-dark-mode .sidebar { background-color: #1a1a1a; }
   </style>
 </head>
 <body>
-  <!-- 这里手动加一个顶部的 Logo 区域 -->
-  <div class="top-logo-area">
+  <!-- 顶部 Logo (点击回首页) -->
+  <div class="top-logo-area" onclick="location.hash='/'">
     <img src="avatar.jpg" class="top-logo-img" onerror="this.style.display='none'">
     <span class="top-logo-text">Mizuki Bot</span>
   </div>
 
-  <div id="app">🏃‍♂️ 加载中...</div>
+  <div id="app">🎀 Mizuki Bot 启动中...</div>
 
   <script>
     window.$docsify = {
-      // 侧边栏顶部的名字
-      name: '<span style="font-weight:bold; color:#E97EB3;">Mizuki Bot</span>',
+      name: 'Mizuki Bot', // 侧边栏名字可以隐藏，因为顶部有了，或者保留
       loadSidebar: true,
       subMaxLevel: 2,
       auto2top: true,
-      // 搜索配置
       search: {
-        placeholder: '🔍 搜指令 (如: b40)',
-        noData: '找不到这个指令哦',
+        placeholder: '🔍 搜指令...',
+        noData: '找不到哦~',
         depth: 6
       },
       darklightTheme: {
         defaultTheme : 'light',
-        siteFont : "apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, Arial",
+        siteFont : "apple-system, BlinkMacSystemFont, Roboto, Arial",
         dark: { accent: '#E97EB3', toogleBackground : '#ffffff', background: '#1a1a1a', textColor: '#f0f0f0' },
         light: { accent: '#E97EB3', toogleBackground : '#091a28' }
       }
