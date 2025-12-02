@@ -10,121 +10,112 @@
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/style.min.css">
 
   <style>
-    /* --- 全局变量 --- */
     :root {
       --mizuki-pink: #E97EB3;
       --niigo-purple: #8A66C2;
       --navbar-height: 60px;
     }
 
-    /* 全局过渡动画 (平滑切换日夜模式) */
-    body, .sidebar, body::before, .content, .card-link {
-      transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease !important;
-    }
-
-    /* 1. 顶部磨砂导航条背景 (Layer 1) */
+    /* 1. 顶部导航条背景 */
     body::before {
       content: "";
       position: fixed; top: 0; left: 0; width: 100%; height: var(--navbar-height);
-      background-color: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(12px);
-      z-index: 1000; /* 层级 1000 */
+      background-color: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 100; /* 层级中等 */
       border-bottom: 1px solid rgba(0,0,0,0.05);
     }
-    
-    /* 2. 强制修复三道杠 (Layer 3 - 最顶层) */
+    body.docsify-dark-mode::before {
+      background-color: rgba(26, 26, 26, 0.95);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* 2. 三道杠 (菜单按钮) - 必须在最左边 */
     .sidebar-toggle {
       position: fixed !important;
+      left: 10px !important; /* 靠左 */
       top: 0 !important;
-      left: 0 !important;
-      width: 60px !important;
+      width: 50px !important;
       height: 60px !important;
-      padding: 18px !important;
-      z-index: 1002 !important; /* 层级最高，确保能点到 */
+      padding-top: 20px !important;
+      z-index: 200 !important; /* 层级最高！ */
       background: transparent !important;
     }
-    /* 修复三道杠颜色 */
+    /* 强制设置三道杠颜色 */
     .sidebar-toggle span {
       background-color: var(--mizuki-pink) !important;
     }
 
-    /* 3. 顶部 Logo 区域 (Layer 2) */
+    /* 3. 顶部 Logo 区域 - 往右挪，别挡住按钮 */
     .top-logo-area {
       position: fixed;
-      top: 0; left: 50px; /* 躲开三道杠 */
+      top: 0;
+      left: 70px; /* 关键！往右移，给三道杠留位置 */
       height: 60px;
       display: flex; align-items: center;
-      z-index: 1001; /* 比背景高，比菜单低 */
-      cursor: pointer; /* 鼠标变手型 */
-      user-select: none;
+      z-index: 150;
+      cursor: pointer;
     }
     .top-logo-img {
       width: 32px; height: 32px;
       border-radius: 50%;
       border: 2px solid var(--mizuki-pink);
-      margin-right: 10px;
-      box-shadow: 0 0 8px rgba(233, 126, 179, 0.3);
+      margin-right: 8px;
     }
     .top-logo-text {
       font-weight: 900; font-size: 18px;
-      background: linear-gradient(135deg, var(--mizuki-pink) 0%, var(--niigo-purple) 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      color: var(--mizuki-pink); /* 纯色适配性更好 */
     }
 
-    /* 4. 夜间模式深度适配 */
-    body.docsify-dark-mode::before {
-      background-color: rgba(26, 26, 26, 0.95); /* 顶部变黑 */
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+    /* 4. 卡片样式增强 */
+    .card-link {
+      display: block; margin: 15px 0; padding: 20px;
+      background: #ffffff; 
+      border: 1px solid rgba(233, 126, 179, 0.3);
+      border-radius: 12px;
+      text-decoration: none !important;
+      color: #333 !important;
+      box-shadow: 0 4px 10px rgba(233, 126, 179, 0.1);
+      transition: transform 0.2s;
     }
-    body.docsify-dark-mode .sidebar-toggle span {
-      background-color: #E97EB3 !important; /* 夜间模式三道杠依然粉色 */
+    body.docsify-dark-mode .card-link {
+      background: #2b2b2b; 
+      color: #fff !important;
+      border-color: rgba(233, 126, 179, 0.2);
     }
-
-    /* 5. 布局调整 */
-    .content { padding-top: 70px !important; max-width: 900px; }
-    #docsify-darklight-theme-bit { position: fixed !important; top: 15px !important; right: 15px !important; z-index: 1002 !important; }
-
-    /* 6. 搜索框美化 */
-    .sidebar .search { margin-top: 20px; border-bottom: none !important; }
-    .sidebar .search input {
-      border-radius: 20px; border: 1px solid rgba(0,0,0,0.1);
-      background: rgba(0,0,0,0.03); padding: 10px 15px;
+    .card-desc { display: block; font-size: 0.85em; opacity: 0.8; margin-top: 5px; font-weight: normal; }
+    
+    .content { padding-top: 80px !important; }
+    
+    /* 5. 修复 Markdown 里的居中问题 */
+    .center-block {
+      text-align: center;
+      margin: 20px 0;
     }
     
-    /* 其他细节 */
-    a { color: var(--mizuki-pink); text-decoration: none; }
-    .sidebar-nav li.active > a {
-      border-left: 4px solid var(--mizuki-pink);
-      background: linear-gradient(to right, rgba(233,126,179,0.1), transparent);
-      color: var(--mizuki-pink) !important; padding-left: 10px; border-right: none;
-    }
-    .sidebar { background-color: rgba(255,255,255,0.98); }
-    body.docsify-dark-mode .sidebar { background-color: #1a1a1a; }
+    /* 侧边栏搜索框 */
+    .sidebar .search { margin-top: 20px; }
   </style>
 </head>
 <body>
-  <!-- 顶部 Logo (点击回首页) -->
+  <!-- Logo 区域 -->
   <div class="top-logo-area" onclick="location.hash='/'">
     <img src="avatar.jpg" class="top-logo-img" onerror="this.style.display='none'">
     <span class="top-logo-text">Mizuki Bot</span>
   </div>
 
-  <div id="app">🎀 Mizuki Bot 启动中...</div>
+  <div id="app">加载中...</div>
 
   <script>
     window.$docsify = {
-      name: 'Mizuki Bot', // 侧边栏名字可以隐藏，因为顶部有了，或者保留
+      name: '', // 留空，因为我们有自定义顶部Logo
       loadSidebar: true,
       subMaxLevel: 2,
       auto2top: true,
-      search: {
-        placeholder: '🔍 搜指令...',
-        noData: '找不到哦~',
-        depth: 6
-      },
+      search: 'auto',
       darklightTheme: {
         defaultTheme : 'light',
-        siteFont : "apple-system, BlinkMacSystemFont, Roboto, Arial",
+        siteFont : "apple-system, BlinkMacSystemFont, Roboto, sans-serif",
         dark: { accent: '#E97EB3', toogleBackground : '#ffffff', background: '#1a1a1a', textColor: '#f0f0f0' },
         light: { accent: '#E97EB3', toogleBackground : '#091a28' }
       }
