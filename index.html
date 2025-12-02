@@ -2,113 +2,142 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>mzk-bot 帮助文档</title>
+  <title>Mizuki Bot 帮助文档</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   
-  <!-- 1. 引入深色模式兼容的主题 -->
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/style.min.css" title="docsify-darklight-theme" type="text/css" />
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/themes/vue.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/style.min.css">
 
   <style>
-    /* --- 自定义 CSS 补丁 --- */
-    
-    /* 1. 强制把侧边栏开关(三道杠)移到左上角 */
+    /* --- 全局变量：Mizuki 主题色 --- */
+    :root {
+      --mizuki-pink: #E97EB3;      /* 瑞希的发色/印象色 */
+      --niigo-purple: #8A66C2;     /* 25时的紫色 */
+      --navbar-height: 60px;
+    }
+
+    /* 顶部磨砂导航栏 */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: var(--navbar-height);
+      background-color: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      z-index: 99;
+      border-bottom: 2px solid rgba(233, 126, 179, 0.1); /* 底部有一条淡淡的粉线 */
+      transition: background-color 0.3s;
+    }
+    body.docsify-dark-mode::before {
+      background-color: rgba(26, 26, 26, 0.85);
+      border-bottom: 2px solid rgba(233, 126, 179, 0.1);
+    }
+
+    /* 按钮位置 */
     .sidebar-toggle {
-      left: 15px !important;
-      top: 15px !important;
-      bottom: auto !important;
-      right: auto !important;
-      background: transparent !important;
-      color: var(--textColor) !important; /* 跟随文字颜色 */
+      position: fixed !important; top: 12px !important; left: 15px !important;
+      z-index: 100 !important; background: transparent !important; padding: 10px !important;
+      color: var(--mizuki-pink) !important; /* 菜单按钮也是粉色 */
     }
-
-    /* 2. 调整深色模式切换按钮的位置 (放在右上角) */
     #docsify-darklight-theme-bit {
-      top: 15px !important;
-      right: 15px !important;
+      position: fixed !important; top: 15px !important; right: 15px !important;
+      z-index: 100 !important;
     }
 
-    /* 3. 内容区域微调，防止被按钮遮挡 */
-    .content {
-      padding-top: 60px !important; 
-    }
+    .content { padding-top: var(--navbar-height) !important; max-width: 900px; }
 
-    /* 4. 图片圆角与阴影 */
-    img {
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    /* --- 核心美化：瑞希粉渐变 --- */
+    .gradient-text {
+      /* 从瑞希粉渐变到25时紫 */
+      background: linear-gradient(135deg, var(--mizuki-pink) 0%, var(--niigo-purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 900;
+      letter-spacing: -0.5px;
     }
     
-    /* 5. 侧边栏样式微调 */
-    .sidebar {
-      padding-top: 20px;
+    /* 链接和强调色改为粉色 */
+    a { color: var(--mizuki-pink); text-decoration: none; transition: all 0.3s; }
+    .sidebar-nav li.active > a {
+      border-right: none;
+      background-color: var(--mizuki-pink) !important; /* 侧边栏选中变粉 */
+      color: white !important;
+      border-radius: 8px;
+      padding-left: 10px; margin-right: 10px;
+    }
+
+    /* 卡片样式 */
+    .card-link {
+      display: block; margin: 10px 0; padding: 20px;
+      background: #ffffff;
+      color: #333 !important;
+      border: 1px solid rgba(233, 126, 179, 0.2); /* 粉色边框 */
+      border-radius: 16px;
+      font-weight: bold;
+      transition: all 0.2s;
+      box-shadow: 0 4px 6px rgba(233, 126, 179, 0.05); /* 淡淡的粉色阴影 */
+    }
+    /* 深色模式下的卡片 */
+    body.docsify-dark-mode .card-link {
+      background: #252525;
+      color: #fff !important;
+      border: 1px solid rgba(233, 126, 179, 0.1);
+    }
+
+    .card-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 15px rgba(233, 126, 179, 0.2);
+      border-color: var(--mizuki-pink);
+    }
+    .card-desc { display: block; font-size: 0.85em; opacity: 0.7; margin-top: 5px; font-weight: normal; }
+
+    .sidebar { padding-top: var(--navbar-height); background-color: rgba(255,255,255,0.98); }
+    body.docsify-dark-mode .sidebar { background-color: #1a1a1a; }
+    
+    .github-link-bottom { margin-top: 20px; padding: 10px; text-align: center; border-top: 1px solid rgba(0,0,0,0.1); }
+    .github-link-bottom a { display: flex; align-items: center; justify-content: center; gap: 5px; font-size: 14px; font-weight: bold; color: var(--niigo-purple); }
+
+    @media screen and (max-width: 768px) {
+      .sidebar-toggle { left: 10px !important; }
+      #docsify-darklight-theme-bit { right: 10px !important; }
     }
   </style>
 </head>
 <body>
-  <div id="app">🏃‍♂️ 正在启动 HarukiBot 文档...</div>
+  <div id="app">🎀 Mizuki Bot 启动中...</div>
   <script>
     window.$docsify = {
-      name: 'mzk-bot',
-      repo: 'https://github.com/HX-Wrdzgzs/mzk-bot',
+      name: '<span class="gradient-text">Mizuki Bot</span>',
       loadSidebar: true,
       subMaxLevel: 3,
       auto2top: true,
-      
-      // 搜索配置
       search: {
         placeholder: '🔍 搜索指令...',
-        noData: '找不到结果!',
+        noData: '找不到结果~',
         depth: 6
       },
-
-      // 深色模式配置
       darklightTheme: {
-        siteFont : "PT Sans",
-        defaultTheme : 'light', // 默认亮色
-        codeFontFamily : 'Roboto Mono, Monaco, courier, monospace',
-        bodyFontSize : '17px',
+        defaultTheme : 'light',
+        siteFont : "apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial",
         dark: {
-          accent: '#42b983',
+          accent: '#E97EB3', // 瑞希粉
           toogleBackground : '#ffffff',
-          background: '#1a1a1a', // 深色背景
+          background: '#1a1a1a',
           textColor: '#f0f0f0',
           codeBackgroundColor : '#2b2b2b',
-          borderColor : '#0d2538',
-          blockQuoteColor : '#858585',
-          highlightColor : '#d22778',
-          sidebarSublink : '#b4b4b4',
-          codeTypeColor : '#ffffff',
-          coverBackground : 'linear-gradient(to left bottom, hsl(118, 100%, 85%) 0%,hsl(224, 100%, 85%) 100%)',
-          toogleImage : 'url(https://cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/icons/sun.svg)'
         },
         light: {
-          accent: '#42b983',
+          accent: '#E97EB3', // 瑞希粉
           toogleBackground : '#091a28',
-          background: '#ffffff',
           textColor: '#34495e',
-          codeBackgroundColor : '#f8f8f8',
-          borderColor : 'rgba(0, 0, 0, 0.07)',
-          blockQuoteColor : '#858585',
-          highlightColor : '#d22778',
-          sidebarSublink : '#505d6b',
-          codeTypeColor : '#091a28',
-          coverBackground : 'linear-gradient(to left bottom, hsl(118, 100%, 85%) 0%,hsl(224, 100%, 85%) 100%)',
-          toogleImage : 'url(https://cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/icons/moon.svg)'
         }
       }
     }
   </script>
-  
-  <!-- 核心组件 -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
-  <!-- 搜索组件 -->
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
-  <!-- 深色模式插件 -->
   <script src="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/index.min.js"></script>
-  <!-- 图片缩放 -->
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
-  <!-- 代码复制 -->
   <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
 </body>
 </html>
