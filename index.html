@@ -16,68 +16,78 @@
       --navbar-height: 60px;
     }
 
-    /* 1. 顶部导航条背景 */
+    /* 1. 顶部导航条 (核心修复：使用更强的选择器适配夜间模式) */
     body::before {
       content: "";
       position: fixed; top: 0; left: 0; width: 100%; height: var(--navbar-height);
-      background-color: rgba(255, 255, 255, 0.95);
+      background-color: rgba(255, 255, 255, 0.95); /* 默认亮色背景 */
       backdrop-filter: blur(10px);
-      z-index: 100; /* 层级中等 */
+      z-index: 100; 
       border-bottom: 1px solid rgba(0,0,0,0.05);
-    }
-    body.docsify-dark-mode::before {
-      background-color: rgba(26, 26, 26, 0.95);
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: background-color 0.3s ease;
     }
 
-    /* 2. 三道杠 (菜单按钮) - 必须在最左边 */
+    /* !!! 这里修复了夜间模式顶部不黑的问题 !!! */
+    body.docsify-dark-mode::before {
+      background-color: #1a1a1a !important; /* 强制变黑 */
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    /* 2. 三道杠菜单按钮 (核心修复：强制粉色，强制最顶层) */
     .sidebar-toggle {
       position: fixed !important;
-      left: 10px !important; /* 靠左 */
-      top: 0 !important;
-      width: 50px !important;
-      height: 60px !important;
-      padding-top: 20px !important;
-      z-index: 200 !important; /* 层级最高！ */
+      left: 10px !important; 
+      top: 12px !important;
+      width: 40px !important;
+      height: 40px !important;
+      z-index: 9999 !important; /* 没人能挡住我 */
       background: transparent !important;
+      padding: 0 !important;
+      /* 这里的代码让三道杠变成粉色 */
+      border-radius: 4px;
     }
-    /* 强制设置三道杠颜色 */
-    .sidebar-toggle span {
-      background-color: var(--mizuki-pink) !important;
+    /* 强制三道杠内部线条颜色 */
+    body .sidebar-toggle span {
+      background-color: var(--mizuki-pink) !important; 
+      height: 3px !important;
+      margin-bottom: 5px !important;
     }
 
-    /* 3. 顶部 Logo 区域 - 往右挪，别挡住按钮 */
+    /* 3. Logo 区域 (往右挪到 60px，防止和按钮重叠) */
     .top-logo-area {
       position: fixed;
       top: 0;
-      left: 70px; /* 关键！往右移，给三道杠留位置 */
+      left: 60px; /* 给左边留出足够空间 */
       height: 60px;
       display: flex; align-items: center;
-      z-index: 150;
+      z-index: 101;
       cursor: pointer;
     }
     .top-logo-img {
       width: 32px; height: 32px;
       border-radius: 50%;
       border: 2px solid var(--mizuki-pink);
-      margin-right: 8px;
+      margin-right: 10px;
     }
     .top-logo-text {
       font-weight: 900; font-size: 18px;
-      color: var(--mizuki-pink); /* 纯色适配性更好 */
+      color: var(--mizuki-pink);
     }
 
-    /* 4. 卡片样式增强 */
+    /* 4. 内容区域下移，防止被遮挡 */
+    .content { padding-top: 80px !important; max-width: 900px; }
+
+    /* 5. 卡片样式 */
     .card-link {
       display: block; margin: 15px 0; padding: 20px;
-      background: #ffffff; 
+      background: #fff; 
       border: 1px solid rgba(233, 126, 179, 0.3);
       border-radius: 12px;
       text-decoration: none !important;
       color: #333 !important;
       box-shadow: 0 4px 10px rgba(233, 126, 179, 0.1);
-      transition: transform 0.2s;
     }
+    /* 夜间模式卡片 */
     body.docsify-dark-mode .card-link {
       background: #2b2b2b; 
       color: #fff !important;
@@ -85,16 +95,11 @@
     }
     .card-desc { display: block; font-size: 0.85em; opacity: 0.8; margin-top: 5px; font-weight: normal; }
     
-    .content { padding-top: 80px !important; }
-    
-    /* 5. 修复 Markdown 里的居中问题 */
-    .center-block {
-      text-align: center;
-      margin: 20px 0;
+    /* 搜索框美化 */
+    .sidebar .search input {
+      border-radius: 4px;
+      border: 1px solid #ddd;
     }
-    
-    /* 侧边栏搜索框 */
-    .sidebar .search { margin-top: 20px; }
   </style>
 </head>
 <body>
@@ -104,11 +109,11 @@
     <span class="top-logo-text">Mizuki Bot</span>
   </div>
 
-  <div id="app">加载中...</div>
+  <div id="app">🏃‍♂️ 启动中...</div>
 
   <script>
     window.$docsify = {
-      name: '', // 留空，因为我们有自定义顶部Logo
+      name: '', // 留空
       loadSidebar: true,
       subMaxLevel: 2,
       auto2top: true,
