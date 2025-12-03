@@ -16,12 +16,12 @@
       --navbar-height: 60px;
     }
 
-    /* 1. 顶部导航栏 (Layer 50) */
+    /* 1. 顶部导航栏 */
     #mizuki-navbar {
       position: fixed; top: 0; left: 0; width: 100%; height: var(--navbar-height);
       background-color: var(--background);
       border-bottom: 1px solid rgba(128, 128, 128, 0.1);
-      z-index: 50; /* 导航栏层级 */
+      z-index: 50;
       display: flex; align-items: center;
       transition: background-color 0.3s;
       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
@@ -29,8 +29,7 @@
 
     /* 2. Logo 区域 */
     .nav-logo-box {
-      margin-left: 60px;
-      display: flex; align-items: center; cursor: pointer; height: 100%;
+      margin-left: 60px; display: flex; align-items: center; cursor: pointer; height: 100%;
     }
     .nav-logo-img {
       width: 32px; height: 32px; border-radius: 50%;
@@ -40,20 +39,10 @@
       font-weight: 900; font-size: 18px; color: var(--mizuki-pink);
     }
 
-    /* 3. 【核心修复】侧边栏 (Sidebar) */
-    /* 必须把层级提到比导航栏(50)高，不然就被盖住了！ */
-    .sidebar {
-      z-index: 999 !important; /* 让侧边栏浮在最上面 */
-      background-color: var(--background) !important; /* 确保背景不透明 */
-      padding-top: 60px !important; /* 避开顶部的假按钮 */
-      border-right: 1px solid rgba(128, 128, 128, 0.1);
-      transition: transform 0.3s, background-color 0.3s !important;
-    }
-    
-    /* 4. 假按钮 (Layer 99999) */
+    /* 3. 【假按钮】手写三道杠 */
     #my-custom-toggle {
       position: fixed; left: 10px; top: 10px; width: 44px; height: 44px;
-      z-index: 99999; /* 按钮必须是全场最高 */
+      z-index: 100001; /* 比侧边栏还要高，保证打开了也能点它关闭 */
       cursor: pointer;
       display: flex; flex-direction: column; justify-content: center; align-items: center;
       background: transparent; border-radius: 8px;
@@ -62,16 +51,52 @@
       display: block; width: 24px; height: 3px;
       background-color: var(--mizuki-pink);
       margin: 2.5px 0; border-radius: 2px;
+      transition: all 0.3s;
     }
-    
+
+    /* 4. 【核心重写】侧边栏暴力接管 */
+    .sidebar {
+      position: fixed !important;
+      top: 0 !important;
+      bottom: 0 !important;
+      left: 0 !important;
+      width: 280px !important;
+      background-color: var(--background) !important;
+      z-index: 100000 !important; /* 超高层级 */
+      border-right: 1px solid rgba(128, 128, 128, 0.1);
+      padding-top: 80px !important; /* 避开顶部 */
+      /* 默认移出屏幕 */
+      transform: translateX(-120%); 
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+    }
+
+    /* 当 body 有这个类时，侧边栏滑进来 */
+    body.my-sidebar-show .sidebar {
+      transform: translateX(0) !important;
+    }
+
+    /* 5. 遮罩层 (点击关闭) */
+    #sidebar-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 99999; /* 在侧边栏下面 */
+      display: none; /* 默认隐藏 */
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    body.my-sidebar-show #sidebar-overlay {
+      display: block;
+      opacity: 1;
+    }
+
     /* 隐藏原生按钮 */
     .sidebar-toggle { display: none !important; }
 
-    /* 5. 布局调整 */
+    /* 6. 布局与美化 */
     .content { padding-top: 80px !important; max-width: 900px; }
     #docsify-darklight-theme-bit { position: fixed !important; top: 15px !important; right: 15px !important; z-index: 100 !important; }
-
-    /* 6. 卡片样式 */
+    
     .card-link {
       display: block; margin: 15px 0; padding: 20px;
       background: var(--codeBackgroundColor);
@@ -79,12 +104,22 @@
       border-radius: 12px;
       text-decoration: none !important;
       color: var(--textColor) !important;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
     .card-desc { display: block; font-size: 0.85em; opacity: 0.8; margin-top: 5px; font-weight: normal; }
+
+    /* PC端适配：PC端不需要这套逻辑，恢复默认 */
+    @media screen and (min-width: 769px) {
+      .sidebar { transform: translateX(0) !important; z-index: 40 !important; padding-top: 60px !important;}
+      #my-custom-toggle { display: none; }
+      .nav-logo-box { margin-left: 20px; }
+      #sidebar-overlay { display: none !important; }
+    }
   </style>
 </head>
 <body>
+
+  <!-- 遮罩层 -->
+  <div id="sidebar-overlay" onclick="toggleMySidebar()"></div>
 
   <!-- 顶部导航 -->
   <div id="mizuki-navbar">
@@ -94,8 +129,8 @@
     </div>
   </div>
 
-  <!-- 假按钮 -->
-  <div id="my-custom-toggle" onclick="toggleSidebarProxy()">
+  <!-- 假按钮：点击触发手写的 JS -->
+  <div id="my-custom-toggle" onclick="toggleMySidebar()">
     <span></span>
     <span></span>
     <span></span>
@@ -104,12 +139,21 @@
   <div id="app">🏃‍♂️ 启动中...</div>
 
   <script>
-    // 强制控制侧边栏开关
-    function toggleSidebarProxy() {
-      // Docsify 移动端逻辑：body 有 'close' 类时隐藏，没有时显示
-      // 我们直接切换这个类
-      document.body.classList.toggle('close');
+    // 纯手动控制侧边栏
+    function toggleMySidebar() {
+      // 切换 body 的 class
+      document.body.classList.toggle('my-sidebar-show');
     }
+
+    // 点击链接后自动收起侧边栏
+    document.addEventListener('click', function(e) {
+      if (e.target.tagName === 'A' && document.body.classList.contains('my-sidebar-show')) {
+        // 如果点的是侧边栏里的链接，或者是卡片链接，稍微等一下跳转了再关，体验更好
+        setTimeout(() => {
+           document.body.classList.remove('my-sidebar-show');
+        }, 150);
+      }
+    });
 
     window.$docsify = {
       name: '',
