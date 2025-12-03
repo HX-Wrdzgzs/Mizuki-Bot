@@ -39,20 +39,32 @@
       font-weight: 900; font-size: 18px; color: var(--mizuki-pink);
     }
 
-    /* 3. 侧边栏 */
+    /* 3. 侧边栏 (移除变暗效果，纯色背景) */
     .sidebar {
       position: fixed !important; top: 0 !important; bottom: 0 !important; left: 0 !important;
       width: 280px !important;
-      background-color: var(--background) !important;
+      background-color: var(--background) !important; /* 强制不透明 */
       z-index: 100000 !important;
       border-right: 1px solid rgba(128, 128, 128, 0.1);
       padding-top: 80px !important;
       transform: translateX(-120%);
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-      box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+      box-shadow: 4px 0 20px rgba(0,0,0,0.05); /* 很淡的阴影 */
     }
+    /* 鼠标移上去也不要变色 */
+    .sidebar:hover { background-color: var(--background) !important; }
+    
     body.my-sidebar-show .sidebar { transform: translateX(0) !important; }
     
+    /* 侧边栏选中高亮 */
+    .sidebar-nav li.active > a {
+      border-right: none;
+      border-left: 4px solid var(--mizuki-pink);
+      background: linear-gradient(to right, rgba(233,126,179,0.1), transparent);
+      color: var(--mizuki-pink) !important;
+      font-weight: bold;
+    }
+
     /* 4. 遮罩层 */
     #sidebar-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -70,30 +82,47 @@
       display: block; width: 24px; height: 3px; background-color: var(--mizuki-pink); margin: 2.5px 0; border-radius: 2px;
     }
 
-    /* 5. 分页按钮精装修 (Pagination) */
+    /* 5. 分页按钮 (并排布局 + 箭头) */
     .docsify-pagination-container {
       margin-top: 50px;
       padding-top: 20px;
       border-top: 1px solid rgba(128,128,128,0.1);
+      display: flex !important; /* 强制并排 */
+      justify-content: space-between !important; /* 一左一右 */
+      flex-wrap: wrap; 
+      gap: 10px;
     }
+    
     .pagination-item {
+      flex: 1; /* 均分宽度 */
+      min-width: 120px;
       margin-top: 10px;
-      border: 1px solid var(--mizuki-pink) !important;
-      border-radius: 50px !important; /* 大圆角 */
-      padding: 10px 20px !important;
+      border: 1px solid rgba(233, 126, 179, 0.4) !important;
+      border-radius: 12px !important; /* 圆角 */
+      padding: 15px !important;
       transition: all 0.3s;
+      display: flex;
+      flex-direction: column;
     }
+    
+    /* 上一页文字靠左，下一页文字靠右 */
+    .pagination-item-prev { text-align: left; align-items: flex-start; }
+    .pagination-item-next { text-align: right; align-items: flex-end; }
+
     .pagination-item:hover {
       background-color: var(--mizuki-pink);
       color: white !important;
+      border-color: var(--mizuki-pink) !important;
       transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(233, 126, 179, 0.3);
+      box-shadow: 0 4px 12px rgba(233, 126, 179, 0.3);
+    }
+    
+    /* 调整内部文字 */
+    .pagination-item-label {
+      font-size: 16px; font-weight: bold; margin-top: 5px;
     }
     .pagination-item-title {
-      font-size: 0.9em; opacity: 0.8;
-    }
-    .pagination-item-label {
-      font-weight: bold; font-size: 1.1em; margin-top: 5px;
+      font-size: 12px; opacity: 0.7; letter-spacing: 1px;
     }
 
     /* 6. 其他 */
@@ -140,16 +169,18 @@
     window.$docsify = {
       name: '',
       loadSidebar: true,
-      subMaxLevel: 3, // 开启目录层级，方便跳转
+      subMaxLevel: 3, // 允许显示 H1, H2, H3
       auto2top: true,
       search: { placeholder: '🔍 搜指令...', noData: '找不到哦~', depth: 6 },
-      // 分页配置
+      
+      // 分页配置 (带箭头)
       pagination: {
-        previousText: '上一页',
-        nextText: '下一页',
+        previousText: '← 上一章',
+        nextText: '下一章 →',
         crossChapter: true,
         crossChapterText: true,
       },
+      
       darklightTheme: {
         defaultTheme : 'light',
         siteFont : "apple-system, BlinkMacSystemFont, Roboto, sans-serif",
@@ -159,11 +190,4 @@
     }
   </script>
   <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/index.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
-  <!-- 引入分页插件 -->
-  <script src="//cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js"></script>
-</body>
-</html>
+  <script src="//cdn.jsdelivr.net/npm
