@@ -1,30 +1,100 @@
 # 🏆 贡献与鸣谢 (Contribution)
 
-**mzk-bot** 的诞生离不开以下团队成员的辛勤付出与技术支持。
+**Mizuki Bot** 的诞生与成长离不开以下成员的辛勤付出。
 
-## 👨‍💻 核心团队 (Core Team)
+<style>
+.contributor-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 30px;
+}
+.contributor-card {
+  width: 140px;
+  text-align: center;
+  padding: 15px;
+  border: 1px solid rgba(128,128,128,0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  transition: transform 0.3s;
+  background: var(--codeBackgroundColor);
+}
+.contributor-card:hover {
+  transform: translateY(-5px);
+  border-color: #E97EB3;
+}
+.contributor-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #E97EB3;
+  margin-bottom: 10px;
+}
+.contributor-name {
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: var(--textColor);
+}
+.contributor-role {
+  font-size: 12px;
+  color: #888;
+  line-height: 1.4;
+}
+</style>
 
-| 成员 | 职责 |
-| :--- | :--- |
-| **HX-Wrdzgzs** | **核心开发者**、日常维护、文档编写 |
-| **Te:Rivers** | 提供关键技术支持与服务保障 |
-| **Sirius** | 提供服务器硬件及底层架构技术支持 |
-| **ecomter** | 提供服务器硬件及底层架构技术支持 |
+<div class="contributor-container">
 
-## 💖 特别鸣谢 (Special Thanks)
+  <!-- HX-Wrdzgzs -->
+  <div class="contributor-card">
+    <img src="HX-Wrdzgzs.jpg" class="contributor-avatar" onerror="this.src='avatar.jpg'">
+    <div class="contributor-name">HX-Wrdzgzs</div>
+    <div class="contributor-role">核心开发者<br>维护与文档</div>
+  </div>
 
-> *"没有他们几个，我也做不了这么多。"*
+  <!-- Te:River (已修正) -->
+  <div class="contributor-card">
+    <!-- 注意：图片文件名也改成了 TeRiver.jpg -->
+    <img src="TeRiver.jpg" class="contributor-avatar" onerror="this.src='avatar.jpg'">
+    <div class="contributor-name">Te:River</div>
+    <div class="contributor-role">技术支持<br>服务保障</div>
+  </div>
 
-特别感谢以下三位在项目起步与发展过程中提供的不可或缺的帮助：
+  <!-- Sirius -->
+  <div class="contributor-card">
+    <img src="Sirius.jpg" class="contributor-avatar" onerror="this.src='avatar.jpg'">
+    <div class="contributor-name">Sirius</div>
+    <div class="contributor-role">硬件支持<br>底层架构</div>
+  </div>
 
-*   🥇 **ecomter**
-*   🥇 **Sirius**
-*   🥇 **Te:Rivers**
+  <!-- ecomter -->
+  <div class="contributor-card">
+    <img src="ecomter.jpg" class="contributor-avatar" onerror="this.src='avatar.jpg'">
+    <div class="contributor-name">ecomter</div>
+    <div class="contributor-role">硬件支持<br>底层架构</div>
+  </div>
 
----
+  <!-- 公良寻竹 -->
+  <div class="contributor-card">
+    <img src="Gongliang.jpg" class="contributor-avatar" onerror="this.src='avatar.jpg'">
+    <div class="contributor-name">公良寻竹</div>
+    <div class="contributor-role">美术设计<br>初代头像绘制</div>
+  </div>
 
-### 🛠️ 技术栈致谢
+</div>
+
+<br>
+<br>
+
+## 💖 开源致谢
+
 本项目同时也使用了以下优秀的开源项目与服务：
 
-*   **Framework**: NoneBot2 / Koishi / Hakurui---
+*   **Framework**: NoneBot2 / Koishi / go-cqhttp
+*   **Data Source**: ぷろせかもえ！ / 33Kit
+*   **Design**: 小沢翼 (Logo) / Foglio (UI)
+
+---
 *Created with ❤️ by HX-Wrdzgzs*
