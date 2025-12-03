@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/style.min.css">
 
   <style>
-    /* 增加平滑滚动 */
+    /* 平滑滚动 */
     html { scroll-behavior: smooth; }
 
     :root {
@@ -47,7 +47,7 @@
       font-weight: 900; font-size: 18px; color: var(--mizuki-pink);
     }
 
-    /* 3. 侧边栏 (Solid Background) */
+    /* 3. 侧边栏 */
     .sidebar {
       position: fixed !important; top: 0 !important; bottom: 0 !important; left: 0 !important;
       width: 280px !important;
@@ -132,6 +132,13 @@
       .nav-logo-box { margin-left: 20px; }
       #sidebar-overlay { display: none !important; }
     }
+    
+    /* Loading 动画 */
+    @keyframes pulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(233, 126, 179, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(233, 126, 179, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(233, 126, 179, 0); }
+    }
   </style>
 </head>
 <body>
@@ -144,40 +151,22 @@
   </div>
   <div id="my-custom-toggle" onclick="toggleMySidebar()"><span></span><span></span><span></span></div>
   
-  <div id="app"></div>
+  <!-- Loading 区域：这里会随机显示瑞希的台词 -->
+  <div id="app">
+    <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 80%; max-width: 400px;">
+        <img src="avatar.jpg" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid #E97EB3; margin-bottom: 20px; animation: pulse 2s infinite;">
+        <div id="loading-text" style="font-size: 16px; color: #E97EB3; font-weight: bold; margin-bottom: 8px;">Mizuki Bot</div>
+        <div id="loading-sub" style="font-size: 13px; color: #999;">Loading...</div>
+    </div>
+  </div>
 
   <script>
-    // 手动控制侧边栏开关
-    function toggleMySidebar() { document.body.classList.toggle('my-sidebar-show'); }
-    
-    // 【核心修复】
-    // 监听 URL 变化 (HashChange)。
-    // 只有当网址真的变了（说明已经跳转成功了），才关闭侧边栏。
-    window.addEventListener('hashchange', function() {
-      if (document.body.classList.contains('my-sidebar-show')) {
-        document.body.classList.remove('my-sidebar-show');
-      }
-    });
-
-    window.$docsify = {
-      repo: 'https://github.com/HX-Wrdzgzs/Mizuki-Bot',
-      name: '',
-      loadSidebar: true,
-      subMaxLevel: 3,
-      auto2top: true,
-      search: { placeholder: '🔍 搜指令...', noData: '找不到哦~', depth: 6 },
-      pagination: {
-        previousText: '← 上一章',
-        nextText: '下一章 →',
-        crossChapter: true,
-        crossChapterText: true,
-      },
-      darklightTheme: {
-        defaultTheme : 'light',
-        siteFont : "apple-system, BlinkMacSystemFont, Roboto, sans-serif",
-        dark: { accent: '#E97EB3', toogleBackground : '#ffffff', background: '#121212', textColor: '#f0f0f0', codeBackgroundColor: '#202020' },
-        light: { accent: '#E97EB3', toogleBackground : '#091a28', background: '#ffffff', textColor: '#34495e', codeBackgroundColor: '#f8f8f8' }
-      }
-    }
-  </script>
-  <script src="//cdn.js
+    // --- 瑞希语录随机逻辑 ---
+    (function() {
+      // 瑞希的经典台词库
+      const quotes = [
+        { jp: "「 ボクは……ボクでいたいだけ 」", cn: "我只是……想做我自己罢了" },
+        { jp: "「 秘密って、なんだかワクワクしない？ 」", cn: "所谓秘密，不觉得令人有些兴奋吗？" },
+        { jp: "「 ま、ボクは可愛ければなんでもいいけどね♪ 」", cn: "嘛，对我来说只要可爱就都行啦♪" },
+        { jp: "「 25時、ナイトコードで。 」", cn: "25时，在 Nightcord 见。" },
+        { jp: "「 逃げ続けるのも、悪くないかもね 」", cn: "一直逃避下去，或许也不坏
