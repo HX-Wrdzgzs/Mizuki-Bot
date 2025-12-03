@@ -1,4 +1,3 @@
-<!-- 使用纯 HTML 区块来保证居中和样式，解决 Markdown 失效问题 -->
 <div style="text-align: center; margin-top: 20px;">
   
   <img src="avatar.jpg" width="120" height="120" style="border-radius: 50%; box-shadow: 0 0 20px rgba(233, 126, 179, 0.5); border: 3px solid #E97EB3; margin-bottom: 20px;">
@@ -20,7 +19,7 @@
 
   <br>
 
-  <!-- 介绍文案 (用 b 标签代替 **) -->
+  <!-- 介绍文案 -->
   <p style="font-size: 16px; line-height: 1.8; max-width: 600px; margin: 0 auto;">
     <b>Mizuki Bot</b> 专注于为 <b>Project Sekai</b> 和 <b>舞萌 DX</b><br>
     玩家提供最便捷的查询服务。
@@ -31,25 +30,24 @@
 <br>
 <br>
 
-<!-- 功能入口卡片 -->
-<!-- 依然使用 HTML 标签，保证兼容性 -->
+<!-- 功能入口卡片 (链接已修复) -->
 
-<a href="#/plugins?id=🎵-pjsk-相关功能-世界计划" class="card-link">
+<a href="#/plugins?id=pjsk" class="card-link">
   🎵 <b>PJSK 相关功能</b>
   <span class="card-desc">查分、查榜、3D家园资源、玩家绑定、模拟抽卡</span>
 </a>
 
-<a href="#/plugins?id=🎨-pjsk-表情制作-meme-stickers" class="card-link">
+<a href="#/plugins?id=meme" class="card-link">
   🎨 <b>PJSK 表情制作</b>
   <span class="card-desc">一键生成瑞希、奏等角色的自定义对话贴纸</span>
 </a>
 
-<a href="#/plugins?id=🎰-舞萌-dx-专项功能" class="card-link">
+<a href="#/plugins?id=maimai" class="card-link">
   🎰 <b>舞萌 DX 专项</b>
   <span class="card-desc">B50查分、牌子进度、机厅排队助手、运势查询</span>
 </a>
 
-<a href="#/plugins?id=🛠️-实用工具与娱乐" class="card-link">
+<a href="#/plugins?id=tools" class="card-link">
   🧩 <b>通用插件大全</b>
   <span class="card-desc">MC互通、点歌、词云、Steam状态、群管工具</span>
 </a>
