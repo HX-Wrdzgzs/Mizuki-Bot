@@ -19,7 +19,7 @@
     /* 1. 顶部导航栏 */
     #mizuki-navbar {
       position: fixed; top: 0; left: 0; width: 100%; height: var(--navbar-height);
-      background-color: var(--background);
+      background-color: var(--background); /* 跟随主题纯色 */
       border-bottom: 1px solid rgba(128, 128, 128, 0.1);
       z-index: 50;
       display: flex; align-items: center;
@@ -27,7 +27,7 @@
       box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     }
 
-    /* 2. Logo 区域 */
+    /* 2. Logo */
     .nav-logo-box {
       margin-left: 60px; display: flex; align-items: center; cursor: pointer; height: 100%;
     }
@@ -39,10 +39,10 @@
       font-weight: 900; font-size: 18px; color: var(--mizuki-pink);
     }
 
-    /* 3. 【假按钮】手写三道杠 */
+    /* 3. 假按钮 */
     #my-custom-toggle {
       position: fixed; left: 10px; top: 10px; width: 44px; height: 44px;
-      z-index: 100001; /* 比侧边栏还要高，保证打开了也能点它关闭 */
+      z-index: 100001;
       cursor: pointer;
       display: flex; flex-direction: column; justify-content: center; align-items: center;
       background: transparent; border-radius: 8px;
@@ -51,49 +51,43 @@
       display: block; width: 24px; height: 3px;
       background-color: var(--mizuki-pink);
       margin: 2.5px 0; border-radius: 2px;
-      transition: all 0.3s;
     }
 
-    /* 4. 【核心重写】侧边栏暴力接管 */
+    /* 4. 侧边栏 (Solid Background Fix) */
     .sidebar {
       position: fixed !important;
-      top: 0 !important;
-      bottom: 0 !important;
-      left: 0 !important;
+      top: 0 !important; bottom: 0 !important; left: 0 !important;
       width: 280px !important;
+      
+      /* 【修复】背景设为不透明的主题色 */
       background-color: var(--background) !important;
-      z-index: 100000 !important; /* 超高层级 */
+      
+      z-index: 100000 !important;
       border-right: 1px solid rgba(128, 128, 128, 0.1);
-      padding-top: 80px !important; /* 避开顶部 */
-      /* 默认移出屏幕 */
-      transform: translateX(-120%); 
+      padding-top: 80px !important;
+      transform: translateX(-120%);
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
       box-shadow: 4px 0 20px rgba(0,0,0,0.1);
     }
 
-    /* 当 body 有这个类时，侧边栏滑进来 */
     body.my-sidebar-show .sidebar {
       transform: translateX(0) !important;
     }
 
-    /* 5. 遮罩层 (点击关闭) */
+    /* 5. 遮罩层 (颜色调淡) */
     #sidebar-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.5);
-      z-index: 99999; /* 在侧边栏下面 */
-      display: none; /* 默认隐藏 */
-      opacity: 0;
-      transition: opacity 0.3s;
+      background: rgba(0,0,0,0.2); /* 0.2 很淡，不影响看 */
+      z-index: 99999;
+      display: none; opacity: 0; transition: opacity 0.3s;
     }
     body.my-sidebar-show #sidebar-overlay {
-      display: block;
-      opacity: 1;
+      display: block; opacity: 1;
     }
 
-    /* 隐藏原生按钮 */
     .sidebar-toggle { display: none !important; }
 
-    /* 6. 布局与美化 */
+    /* 6. 其他美化 */
     .content { padding-top: 80px !important; max-width: 900px; }
     #docsify-darklight-theme-bit { position: fixed !important; top: 15px !important; right: 15px !important; z-index: 100 !important; }
     
@@ -107,7 +101,6 @@
     }
     .card-desc { display: block; font-size: 0.85em; opacity: 0.8; margin-top: 5px; font-weight: normal; }
 
-    /* PC端适配：PC端不需要这套逻辑，恢复默认 */
     @media screen and (min-width: 769px) {
       .sidebar { transform: translateX(0) !important; z-index: 40 !important; padding-top: 60px !important;}
       #my-custom-toggle { display: none; }
@@ -118,10 +111,8 @@
 </head>
 <body>
 
-  <!-- 遮罩层 -->
   <div id="sidebar-overlay" onclick="toggleMySidebar()"></div>
 
-  <!-- 顶部导航 -->
   <div id="mizuki-navbar">
     <div class="nav-logo-box" onclick="location.hash='/'">
       <img src="avatar.jpg" class="nav-logo-img" onerror="this.style.display='none'">
@@ -129,26 +120,22 @@
     </div>
   </div>
 
-  <!-- 假按钮：点击触发手写的 JS -->
   <div id="my-custom-toggle" onclick="toggleMySidebar()">
-    <span></span>
-    <span></span>
-    <span></span>
+    <span></span> <span></span> <span></span>
   </div>
 
   <div id="app">🏃‍♂️ 启动中...</div>
 
   <script>
-    // 纯手动控制侧边栏
     function toggleMySidebar() {
-      // 切换 body 的 class
       document.body.classList.toggle('my-sidebar-show');
     }
 
-    // 点击链接后自动收起侧边栏
+    // 点击侧边栏链接后，自动关闭侧边栏
     document.addEventListener('click', function(e) {
-      if (e.target.tagName === 'A' && document.body.classList.contains('my-sidebar-show')) {
-        // 如果点的是侧边栏里的链接，或者是卡片链接，稍微等一下跳转了再关，体验更好
+      // 检查点击的是不是链接 (A标签)
+      if (e.target.closest('a') && document.body.classList.contains('my-sidebar-show')) {
+        // 延时一小会儿再关，让用户感觉到跳转了
         setTimeout(() => {
            document.body.classList.remove('my-sidebar-show');
         }, 150);
@@ -171,14 +158,14 @@
         dark: { 
           accent: '#E97EB3', 
           toogleBackground : '#ffffff', 
-          background: '#121212', 
+          background: '#121212', /* 纯黑 */
           textColor: '#f0f0f0',
           codeBackgroundColor: '#202020'
         },
         light: { 
           accent: '#E97EB3', 
           toogleBackground : '#091a28',
-          background: '#ffffff',
+          background: '#ffffff', /* 纯白 */
           textColor: '#34495e',
           codeBackgroundColor: '#f8f8f8'
         }
