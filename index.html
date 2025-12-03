@@ -19,7 +19,7 @@
     /* 1. 顶部导航栏 */
     #mizuki-navbar {
       position: fixed; top: 0; left: 0; width: 100%; height: var(--navbar-height);
-      background-color: var(--background); /* 跟随主题纯色 */
+      background-color: var(--background);
       border-bottom: 1px solid rgba(128, 128, 128, 0.1);
       z-index: 50;
       display: flex; align-items: center;
@@ -39,29 +39,11 @@
       font-weight: 900; font-size: 18px; color: var(--mizuki-pink);
     }
 
-    /* 3. 假按钮 */
-    #my-custom-toggle {
-      position: fixed; left: 10px; top: 10px; width: 44px; height: 44px;
-      z-index: 100001;
-      cursor: pointer;
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-      background: transparent; border-radius: 8px;
-    }
-    #my-custom-toggle span {
-      display: block; width: 24px; height: 3px;
-      background-color: var(--mizuki-pink);
-      margin: 2.5px 0; border-radius: 2px;
-    }
-
-    /* 4. 侧边栏 (Solid Background Fix) */
+    /* 3. 侧边栏 */
     .sidebar {
-      position: fixed !important;
-      top: 0 !important; bottom: 0 !important; left: 0 !important;
+      position: fixed !important; top: 0 !important; bottom: 0 !important; left: 0 !important;
       width: 280px !important;
-      
-      /* 【修复】背景设为不透明的主题色 */
       background-color: var(--background) !important;
-      
       z-index: 100000 !important;
       border-right: 1px solid rgba(128, 128, 128, 0.1);
       padding-top: 80px !important;
@@ -69,25 +51,52 @@
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
       box-shadow: 4px 0 20px rgba(0,0,0,0.1);
     }
-
-    body.my-sidebar-show .sidebar {
-      transform: translateX(0) !important;
-    }
-
-    /* 5. 遮罩层 (颜色调淡) */
+    body.my-sidebar-show .sidebar { transform: translateX(0) !important; }
+    
+    /* 4. 遮罩层 */
     #sidebar-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.2); /* 0.2 很淡，不影响看 */
-      z-index: 99999;
+      background: rgba(0,0,0,0.2); z-index: 99999;
       display: none; opacity: 0; transition: opacity 0.3s;
     }
-    body.my-sidebar-show #sidebar-overlay {
-      display: block; opacity: 1;
-    }
+    body.my-sidebar-show #sidebar-overlay { display: block; opacity: 1; }
 
     .sidebar-toggle { display: none !important; }
+    #my-custom-toggle {
+      position: fixed; left: 10px; top: 10px; width: 44px; height: 44px;
+      z-index: 100001; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center;
+    }
+    #my-custom-toggle span {
+      display: block; width: 24px; height: 3px; background-color: var(--mizuki-pink); margin: 2.5px 0; border-radius: 2px;
+    }
 
-    /* 6. 其他美化 */
+    /* 5. 分页按钮精装修 (Pagination) */
+    .docsify-pagination-container {
+      margin-top: 50px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(128,128,128,0.1);
+    }
+    .pagination-item {
+      margin-top: 10px;
+      border: 1px solid var(--mizuki-pink) !important;
+      border-radius: 50px !important; /* 大圆角 */
+      padding: 10px 20px !important;
+      transition: all 0.3s;
+    }
+    .pagination-item:hover {
+      background-color: var(--mizuki-pink);
+      color: white !important;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(233, 126, 179, 0.3);
+    }
+    .pagination-item-title {
+      font-size: 0.9em; opacity: 0.8;
+    }
+    .pagination-item-label {
+      font-weight: bold; font-size: 1.1em; margin-top: 5px;
+    }
+
+    /* 6. 其他 */
     .content { padding-top: 80px !important; max-width: 900px; }
     #docsify-darklight-theme-bit { position: fixed !important; top: 15px !important; right: 15px !important; z-index: 100 !important; }
     
@@ -110,65 +119,42 @@
   </style>
 </head>
 <body>
-
   <div id="sidebar-overlay" onclick="toggleMySidebar()"></div>
-
   <div id="mizuki-navbar">
     <div class="nav-logo-box" onclick="location.hash='/'">
       <img src="avatar.jpg" class="nav-logo-img" onerror="this.style.display='none'">
       <span class="nav-logo-text">Mizuki Bot</span>
     </div>
   </div>
-
-  <div id="my-custom-toggle" onclick="toggleMySidebar()">
-    <span></span> <span></span> <span></span>
-  </div>
-
+  <div id="my-custom-toggle" onclick="toggleMySidebar()"><span></span><span></span><span></span></div>
   <div id="app">🏃‍♂️ 启动中...</div>
 
   <script>
-    function toggleMySidebar() {
-      document.body.classList.toggle('my-sidebar-show');
-    }
-
-    // 点击侧边栏链接后，自动关闭侧边栏
+    function toggleMySidebar() { document.body.classList.toggle('my-sidebar-show'); }
     document.addEventListener('click', function(e) {
-      // 检查点击的是不是链接 (A标签)
       if (e.target.closest('a') && document.body.classList.contains('my-sidebar-show')) {
-        // 延时一小会儿再关，让用户感觉到跳转了
-        setTimeout(() => {
-           document.body.classList.remove('my-sidebar-show');
-        }, 150);
+        setTimeout(() => { document.body.classList.remove('my-sidebar-show'); }, 150);
       }
     });
 
     window.$docsify = {
       name: '',
       loadSidebar: true,
-      subMaxLevel: 2,
+      subMaxLevel: 3, // 开启目录层级，方便跳转
       auto2top: true,
-      search: {
-        placeholder: '🔍 搜指令...',
-        noData: '找不到哦~',
-        depth: 6
+      search: { placeholder: '🔍 搜指令...', noData: '找不到哦~', depth: 6 },
+      // 分页配置
+      pagination: {
+        previousText: '上一页',
+        nextText: '下一页',
+        crossChapter: true,
+        crossChapterText: true,
       },
       darklightTheme: {
         defaultTheme : 'light',
         siteFont : "apple-system, BlinkMacSystemFont, Roboto, sans-serif",
-        dark: { 
-          accent: '#E97EB3', 
-          toogleBackground : '#ffffff', 
-          background: '#121212', /* 纯黑 */
-          textColor: '#f0f0f0',
-          codeBackgroundColor: '#202020'
-        },
-        light: { 
-          accent: '#E97EB3', 
-          toogleBackground : '#091a28',
-          background: '#ffffff', /* 纯白 */
-          textColor: '#34495e',
-          codeBackgroundColor: '#f8f8f8'
-        }
+        dark: { accent: '#E97EB3', toogleBackground : '#ffffff', background: '#121212', textColor: '#f0f0f0', codeBackgroundColor: '#202020' },
+        light: { accent: '#E97EB3', toogleBackground : '#091a28', background: '#ffffff', textColor: '#34495e', codeBackgroundColor: '#f8f8f8' }
       }
     }
   </script>
@@ -177,5 +163,7 @@
   <script src="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/index.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
+  <!-- 引入分页插件 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js"></script>
 </body>
 </html>
