@@ -13,7 +13,7 @@
     html { scroll-behavior: smooth; }
     :root { --mizuki-pink: #E97EB3; --niigo-purple: #8A66C2; --navbar-height: 60px; }
 
-    /* 1. 顶部导航栏 */
+    /* --- 1. 顶部导航栏 --- */
     #mizuki-navbar {
       position: fixed; top: 0; left: 0; width: 100%; height: var(--navbar-height);
       background-color: rgba(255,255,255,0.95);
@@ -26,28 +26,34 @@
       background-color: rgba(18, 18, 18, 0.95); border-bottom: 1px solid rgba(255,255,255,0.05);
     }
 
-    /* 2. Logo */
+    /* --- 2. Logo --- */
     .nav-logo-box { margin-left: 60px; display: flex; align-items: center; cursor: pointer; height: 100%; }
     .nav-logo-img { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--mizuki-pink); margin-right: 10px; }
     .nav-logo-text { font-weight: 900; font-size: 18px; color: var(--mizuki-pink); }
 
-    /* 3. 侧边栏 */
+    /* --- 3. 侧边栏 (手动接管) --- */
     .sidebar {
       position: fixed !important; top: 0 !important; bottom: 0 !important; left: 0 !important;
       width: 280px !important; z-index: 100000 !important;
       border-right: 1px solid rgba(128, 128, 128, 0.1); padding-top: 80px !important;
-      transform: translateX(-120%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-      box-shadow: 4px 0 20px rgba(0,0,0,0.1); background-color: #ffffff !important;
+      /* 默认藏在左边 */
+      transform: translateX(-120%); 
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      box-shadow: 4px 0 20px rgba(0,0,0,0.1); 
+      background-color: #ffffff !important; /* 强制不透明 */
     }
     body.docsify-dark-mode .sidebar { background-color: #121212 !important; border-right: 1px solid rgba(255,255,255,0.05); }
+    
+    /* 激活状态：滑出来 */
     body.my-sidebar-show .sidebar { transform: translateX(0) !important; }
+    
     .sidebar-nav li.active > a {
       border-right: none; border-left: 4px solid var(--mizuki-pink);
       background: linear-gradient(to right, rgba(233,126,179,0.1), transparent);
       color: var(--mizuki-pink) !important; font-weight: bold;
     }
 
-    /* 4. 遮罩层 */
+    /* --- 4. 遮罩层 --- */
     #sidebar-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0,0,0,0.3); z-index: 99999;
@@ -55,6 +61,7 @@
     }
     body.my-sidebar-show #sidebar-overlay { display: block; opacity: 1; }
 
+    /* 隐藏原生按钮，使用自定义按钮 */
     .sidebar-toggle { display: none !important; }
     #my-custom-toggle {
       position: fixed; left: 10px; top: 10px; width: 44px; height: 44px;
@@ -62,7 +69,7 @@
     }
     #my-custom-toggle span { display: block; width: 24px; height: 3px; background-color: var(--mizuki-pink); margin: 2.5px 0; border-radius: 2px; }
 
-    /* 5. 分页 */
+    /* --- 5. 分页 & 其他 --- */
     .docsify-pagination-container {
       margin-top: 50px; padding-top: 20px; border-top: 1px solid rgba(128,128,128,0.1);
       display: flex !important; justify-content: space-between !important; flex-wrap: wrap; gap: 10px;
@@ -80,16 +87,10 @@
     .pagination-item-label { font-size: 16px; font-weight: bold; margin-top: 5px; }
     .pagination-item-title { font-size: 12px; opacity: 0.7; letter-spacing: 1px; }
 
-    /* 6. 其他 */
     .content { padding-top: 80px !important; max-width: 900px; }
     #docsify-darklight-theme-bit { position: fixed !important; top: 15px !important; right: 15px !important; z-index: 100 !important; }
-    .card-link {
-      display: block; margin: 15px 0; padding: 20px; background: var(--codeBackgroundColor);
-      border: 1px solid rgba(233, 126, 179, 0.3); border-radius: 12px;
-      text-decoration: none !important; color: var(--textColor) !important;
-    }
-    .card-desc { display: block; font-size: 0.85em; opacity: 0.8; margin-top: 5px; font-weight: normal; }
-
+    
+    /* PC端恢复默认 */
     @media screen and (min-width: 769px) {
       .sidebar { transform: translateX(0) !important; z-index: 40 !important; padding-top: 60px !important;}
       #my-custom-toggle { display: none; }
@@ -122,8 +123,8 @@
     </div>
   </div>
 
-  <script>
-    // 瑞希语录逻辑
+   <script>
+    // --- 瑞希台词 ---
     try {
       const quotes = [
         { jp: "「 ボクは……ボクでいたいだけ 」", cn: "我只是……想做我自己罢了" },
@@ -136,11 +137,7 @@
         { jp: "「 未確定なままでいいんじゃない？ 」", cn: "保持未确定的状态，不也挺好吗？" },
         { jp: "「 ニーゴのみんなは、特別だから 」", cn: "因为 25 时的大家，是特别的" },
         { jp: "「 かわいいは正義！だよね？ 」", cn: "可爱即正义！对吧？" },
-        { jp: "「 ほらほら、早くしないと置いてっちゃうよ〜 」", cn: "看吧看吧，不快点的话就要丢下你咯〜" },
-        { jp: "「 絵名、また自撮り？ふふっ 」", cn: "绘名，又在自拍？呵呵" },
-        { jp: "「 永遠なんてない、だからこそ…… 」", cn: "永远什么的并不存在，正因为如此……" },
-        { jp: "「 屋上って、風が気持ちいいよね 」", cn: "天台的风，真的很舒服呢" },
-        { jp: "「 ボクのこと、知りたい？ 」", cn: "想知道，关于我的事吗？" }
+        { jp: "「 ほらほら、早くしないと置いてっちゃうよ〜 」", cn: "看吧看吧，不快点的话就要丢下你咯〜" }
       ];
       const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
       const lt = document.getElementById('loading-text');
@@ -149,20 +146,8 @@
       if (ls) ls.innerHTML = randomQuote.cn;
     } catch(e) {}
 
-    // --- 侧边栏控制逻辑 (最终修正版) ---
-    
-    // 1. 开关侧边栏
-    function toggleMySidebar() { 
-      document.body.classList.toggle('my-sidebar-show'); 
-    }
-    
-    // 2. 【重点】只有 URL 发生变化时 (真的跳转了)，才关闭侧边栏
-    window.addEventListener('hashchange', function() {
-      // 只有侧边栏打开时才执行关闭，减少性能消耗
-      if (document.body.classList.contains('my-sidebar-show')) {
-        document.body.classList.remove('my-sidebar-show');
-      }
-    });
+    // --- 侧边栏开关 ---
+    function toggleMySidebar() { document.body.classList.toggle('my-sidebar-show'); }
 
     window.$docsify = {
       repo: 'https://github.com/HX-Wrdzgzs/Mizuki-Bot',
@@ -172,6 +157,19 @@
       auto2top: true,
       search: { placeholder: '🔍 搜指令...', noData: '找不到哦~', depth: 6 },
       pagination: { previousText: '← 上一章', nextText: '下一章 →', crossChapter: true },
+      
+      // --- 【核心修复】 Docsify 插件系统 ---
+      plugins: [
+        function(hook) {
+          // doneEach: 每次页面加载/路由切换完成后执行
+          hook.doneEach(function() {
+            // 只要页面加载完了，就强制把侧边栏收回去
+            // 这确保了只有在真正跳转成功后，侧边栏才会关闭
+            document.body.classList.remove('my-sidebar-show');
+          });
+        }
+      ],
+
       darklightTheme: {
         defaultTheme : 'light',
         siteFont : "apple-system, BlinkMacSystemFont, Roboto, sans-serif",
