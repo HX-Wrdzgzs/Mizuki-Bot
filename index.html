@@ -4,20 +4,14 @@
   <meta charset="UTF-8">
   <title>Mizuki Bot 帮助文档</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/themes/vue.css">
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/style.min.css">
 
   <style>
-    /* 平滑滚动 */
     html { scroll-behavior: smooth; }
-    
-    :root {
-      --mizuki-pink: #E97EB3;
-      --niigo-purple: #8A66C2;
-      --navbar-height: 60px;
-    }
+    :root { --mizuki-pink: #E97EB3; --niigo-purple: #8A66C2; --navbar-height: 60px; }
 
     /* 1. 顶部导航栏 */
     #mizuki-navbar {
@@ -37,32 +31,13 @@
     .nav-logo-img { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--mizuki-pink); margin-right: 10px; }
     .nav-logo-text { font-weight: 900; font-size: 18px; color: var(--mizuki-pink); }
 
-    /* 3. 侧边栏 (滚动修复版) */
+    /* 3. 侧边栏 (不透明，高层级) */
     .sidebar {
-      position: fixed !important; 
-      top: 0 !important; 
-      bottom: 0 !important; 
-      left: 0 !important;
-      width: 280px !important;
-      
-      /* 关键：使用 top/bottom 而不是 height:100vh，适应手机浏览器地址栏 */
-      height: auto !important; 
-      
-      z-index: 100000 !important;
-      border-right: 1px solid rgba(128, 128, 128, 0.1);
-      padding-top: 80px !important;
-      
-      /* 关键：底部留白，防止内容被遮挡 */
-      padding-bottom: 100px !important;
-      
-      /* 关键：允许滚动 */
-      overflow-y: auto !important;
-      -webkit-overflow-scrolling: touch; /* iOS 惯性滚动 */
-      
-      transform: translateX(-120%);
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-      box-shadow: 4px 0 20px rgba(0,0,0,0.1);
-      background-color: #ffffff !important;
+      position: fixed !important; top: 0 !important; bottom: 0 !important; left: 0 !important;
+      width: 280px !important; z-index: 100000 !important;
+      border-right: 1px solid rgba(128, 128, 128, 0.1); padding-top: 80px !important;
+      transform: translateX(-120%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      box-shadow: 4px 0 20px rgba(0,0,0,0.1); background-color: #ffffff !important;
     }
     body.docsify-dark-mode .sidebar { background-color: #121212 !important; border-right: 1px solid rgba(255,255,255,0.05); }
     body.my-sidebar-show .sidebar { transform: translateX(0) !important; }
@@ -88,7 +63,7 @@
     }
     #my-custom-toggle span { display: block; width: 24px; height: 3px; background-color: var(--mizuki-pink); margin: 2.5px 0; border-radius: 2px; }
 
-    /* 5. 分页按钮 */
+    /* 5. 分页 */
     .docsify-pagination-container {
       margin-top: 50px; padding-top: 20px; border-top: 1px solid rgba(128,128,128,0.1);
       display: flex !important; justify-content: space-between !important; flex-wrap: wrap; gap: 10px;
@@ -143,13 +118,13 @@
   <div id="app">
     <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 85%; max-width: 400px;">
         <img src="avatar.jpg" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid #E97EB3; margin-bottom: 20px; animation: pulse 2s infinite;">
-        <div id="loading-text" style="font-size: 16px; color: #E97EB3; font-weight: bold; margin-bottom: 8px; line-height: 1.5;">少女祈祷中...</div>
+        <div id="loading-text" style="font-size: 16px; color: #E97EB3; font-weight: bold; margin-bottom: 8px; line-height: 1.5;">加载中...</div>
         <div id="loading-sub" style="font-size: 13px; color: #999;">Mizuki Bot</div>
     </div>
   </div>
 
   <script>
-    // --- 瑞希语录逻辑 ---
+    // 瑞希台词库
     try {
       const quotes = [
         { jp: "「 ボクは……ボクでいたいだけ 」", cn: "我只是……想做我自己罢了" },
@@ -175,24 +150,29 @@
       if (ls) ls.innerHTML = randomQuote.cn;
     } catch(e) {}
 
+    // --- 智能侧边栏控制 ---
     function toggleMySidebar() { document.body.classList.toggle('my-sidebar-show'); }
     
-    // 【核心修复：跳转与关闭逻辑】
+    // 【核心修复】智能点击监听
     document.addEventListener('click', function(e) {
-      // 检查点击的是否是侧边栏里的链接
+      // 1. 判断是否点击了侧边栏里的链接
       const link = e.target.closest('.sidebar-nav a');
       
-      // 如果点击了链接，且侧边栏是打开的
+      // 2. 只有当侧边栏打开，且点击了链接时才处理
       if (link && document.body.classList.contains('my-sidebar-show')) {
-        
-        // 1. 获取目标地址，如果是展开文件夹（没有 href 或 href 是空的），就不关闭
         const href = link.getAttribute('href');
-        if (!href || href === '#') return;
-
-        // 2. 延迟 350ms 再关闭，确保视觉上先看到点击反馈，且浏览器有时间处理 URL 变更
+        
+        // 3. 关键判断：
+        // 如果 href 是空的，或者是 # (代表这是个折叠目录，不是跳转页面)
+        // 那么 DO NOTHING (不关闭侧边栏)
+        if (!href || href === '#') {
+          return; // 结束，不执行关闭
+        }
+        
+        // 4. 如果是真实跳转链接 (例如 #/pjsk)，则关闭侧边栏
         setTimeout(() => { 
-          document.body.classList.remove('my-sidebar-show');
-        }, 350); 
+          document.body.classList.remove('my-sidebar-show'); 
+        }, 150);
       }
     });
 
