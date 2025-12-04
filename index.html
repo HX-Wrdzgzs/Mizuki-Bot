@@ -13,30 +13,7 @@
     html { scroll-behavior: smooth; }
     :root { --mizuki-pink: #E97EB3; --niigo-purple: #8A66C2; --navbar-height: 60px; }
 
-    /* --- 1. 启动动画层 (Loading Overlay) --- */
-    #loader-wrapper {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: var(--background, #ffffff); /* 跟随主题色 */
-      z-index: 999999; /* 最高层级 */
-      display: flex; justify-content: center; align-items: center;
-      transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-    }
-    /* 加载完成后的状态：透明并消失 */
-    #loader-wrapper.loaded {
-      opacity: 0;
-      visibility: hidden;
-    }
-    /* 夜间模式适配 */
-    body.docsify-dark-mode #loader-wrapper { background: #121212; }
-
-    /* 呼吸动画 */
-    @keyframes pulse {
-      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(233, 126, 179, 0.7); }
-      70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(233, 126, 179, 0); }
-      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(233, 126, 179, 0); }
-    }
-
-    /* --- 2. 顶部导航栏 --- */
+    /* 1. 顶部导航栏 */
     #mizuki-navbar {
       position: fixed; top: 0; left: 0; width: 100%; height: var(--navbar-height);
       background-color: rgba(255,255,255,0.95);
@@ -49,16 +26,28 @@
       background-color: rgba(18, 18, 18, 0.95); border-bottom: 1px solid rgba(255,255,255,0.05);
     }
 
-    /* Logo */
+    /* 2. Logo */
     .nav-logo-box { margin-left: 60px; display: flex; align-items: center; cursor: pointer; height: 100%; }
     .nav-logo-img { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--mizuki-pink); margin-right: 10px; }
     .nav-logo-text { font-weight: 900; font-size: 18px; color: var(--mizuki-pink); }
 
-    /* --- 3. 侧边栏 --- */
+    /* 3. 【修复】侧边栏：增加滚动条，防止内容被切掉 */
     .sidebar {
-      position: fixed !important; top: 0 !important; bottom: 0 !important; left: 0 !important;
-      width: 280px !important; z-index: 100000 !important;
-      border-right: 1px solid rgba(128, 128, 128, 0.1); padding-top: 80px !important;
+      position: fixed !important; 
+      top: 0 !important; 
+      bottom: 0 !important; 
+      left: 0 !important;
+      width: 280px !important; 
+      height: 100vh !important; /* 强制占满全屏高度 */
+      z-index: 100000 !important;
+      border-right: 1px solid rgba(128, 128, 128, 0.1); 
+      padding-top: 80px !important;
+      
+      /* 关键修复：允许内部滚动 */
+      overflow-y: auto !important; 
+      -webkit-overflow-scrolling: touch; /* iOS 丝滑滚动 */
+      box-sizing: border-box !important; /* 确保 padding 不会撑爆高度 */
+
       transform: translateX(-120%); 
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
       box-shadow: 4px 0 20px rgba(0,0,0,0.1); 
@@ -73,17 +62,14 @@
       color: var(--mizuki-pink) !important; font-weight: bold;
     }
 
-    /* --- 4. 遮罩层 (修复：极淡，几乎透明) --- */
+    /* 4. 遮罩层 */
     #sidebar-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      /* 这里改成了 0.05，几乎看不见，但能感知到覆盖 */
-      background: rgba(0,0,0,0.05); 
-      z-index: 99999;
+      background: rgba(0,0,0,0.3); z-index: 99999;
       display: none; opacity: 0; transition: opacity 0.3s;
     }
     body.my-sidebar-show #sidebar-overlay { display: block; opacity: 1; }
 
-    /* 按钮 */
     .sidebar-toggle { display: none !important; }
     #my-custom-toggle {
       position: fixed; left: 10px; top: 10px; width: 44px; height: 44px;
@@ -91,7 +77,7 @@
     }
     #my-custom-toggle span { display: block; width: 24px; height: 3px; background-color: var(--mizuki-pink); margin: 2.5px 0; border-radius: 2px; }
 
-    /* --- 5. 分页 & 杂项 --- */
+    /* 5. 分页 */
     .docsify-pagination-container {
       margin-top: 50px; padding-top: 20px; border-top: 1px solid rgba(128,128,128,0.1);
       display: flex !important; justify-content: space-between !important; flex-wrap: wrap; gap: 10px;
@@ -109,6 +95,7 @@
     .pagination-item-label { font-size: 16px; font-weight: bold; margin-top: 5px; }
     .pagination-item-title { font-size: 12px; opacity: 0.7; letter-spacing: 1px; }
 
+    /* 6. 其他 */
     .content { padding-top: 80px !important; max-width: 900px; }
     #docsify-darklight-theme-bit { position: fixed !important; top: 15px !important; right: 15px !important; z-index: 100 !important; }
     .card-link {
@@ -124,19 +111,15 @@
       .nav-logo-box { margin-left: 20px; }
       #sidebar-overlay { display: none !important; }
     }
+    
+    @keyframes pulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(233, 126, 179, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(233, 126, 179, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(233, 126, 179, 0); }
+    }
   </style>
 </head>
 <body>
-  
-  <!-- 独立的加载层：它覆盖在所有内容之上 -->
-  <div id="loader-wrapper">
-    <div style="text-align: center; width: 85%; max-width: 400px;">
-        <img src="avatar.jpg" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid #E97EB3; margin-bottom: 20px; animation: pulse 2s infinite;">
-        <div id="loading-text" style="font-size: 16px; color: #E97EB3; font-weight: bold; margin-bottom: 8px; line-height: 1.5;">Mizuki Bot</div>
-        <div id="loading-sub" style="font-size: 13px; color: #999;">Loading...</div>
-    </div>
-  </div>
-
   <div id="sidebar-overlay" onclick="toggleMySidebar()"></div>
   <div id="mizuki-navbar">
     <div class="nav-logo-box" onclick="location.hash='/'">
@@ -146,11 +129,17 @@
   </div>
   <div id="my-custom-toggle" onclick="toggleMySidebar()"><span></span><span></span><span></span></div>
   
-  <div id="app"></div>
+  <div id="app">
+    <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 85%; max-width: 400px;">
+        <img src="avatar.jpg" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid #E97EB3; margin-bottom: 20px; animation: pulse 2s infinite;">
+        <div id="loading-text" style="font-size: 16px; color: #E97EB3; font-weight: bold; margin-bottom: 8px; line-height: 1.5;">少女祈祷中...</div>
+        <div id="loading-sub" style="font-size: 13px; color: #999;">Mizuki Bot</div>
+    </div>
+  </div>
 
-  <script>
-    // --- 瑞希语录 + 延时逻辑 ---
-    (function() {
+   <script>
+    // --- 瑞希语录 ---
+    try {
       const quotes = [
         { jp: "「 ボクは……ボクでいたいだけ 」", cn: "我只是……想做我自己罢了" },
         { jp: "「 秘密って、なんだかワクワクしない？ 」", cn: "所谓秘密，不觉得令人有些兴奋吗？" },
@@ -168,29 +157,24 @@
         { jp: "「 屋上って、風が気持ちいいよね 」", cn: "天台的风，真的很舒服呢" },
         { jp: "「 ボクのこと、知りたい？ 」", cn: "想知道，关于我的事吗？" }
       ];
-      
       const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-      document.getElementById('loading-text').innerHTML = randomQuote.jp;
-      document.getElementById('loading-sub').innerHTML = randomQuote.cn;
-
-      // 【核心逻辑】强制显示 2.5 秒，然后添加 .loaded 类来淡出
-      // 这里的 2500 可以改，2500 = 2.5秒
-      setTimeout(function() {
-        document.getElementById('loader-wrapper').classList.add('loaded');
-      }, 2500);
-    })();
+      const lt = document.getElementById('loading-text');
+      const ls = document.getElementById('loading-sub');
+      if (lt) lt.innerHTML = randomQuote.jp;
+      if (ls) ls.innerHTML = randomQuote.cn;
+    } catch(e) {}
 
     function toggleMySidebar() { document.body.classList.toggle('my-sidebar-show'); }
     
-    // 【修复链接跳转】使用事件委托
+    // 【修复跳转问题】主动监听点击
     document.addEventListener('click', function(e) {
-      // 如果点击的是侧边栏里的链接
+      // 检查是否点击了侧边栏里的链接
       const link = e.target.closest('.sidebar-nav a');
       if (link && document.body.classList.contains('my-sidebar-show')) {
-        // 给 300ms 延迟，让浏览器反应过来要去哪里
+        // 强制收起侧边栏
         setTimeout(() => { 
-          document.body.classList.remove('my-sidebar-show'); 
-        }, 300);
+          document.body.classList.remove('my-sidebar-show');
+        }, 100); // 稍微给一点点反应时间
       }
     });
 
