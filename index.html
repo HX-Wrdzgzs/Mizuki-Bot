@@ -10,66 +10,136 @@
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/style.min.css">
 
   <style>
+    /* --- 0. 全局基础设置 --- */
     html { scroll-behavior: smooth; }
-    :root { --mizuki-pink: #E97EB3; --niigo-purple: #8A66C2; --navbar-height: 60px; }
+    
+    :root {
+      --mizuki-pink: #E97EB3;
+      --niigo-purple: #8A66C2;
+      --navbar-height: 60px;
+      /* 定义背景变量，方便后面调用 */
+      --bg-color-light: #ffffff;
+      --bg-color-dark: #121212;
+    }
 
-    /* --- 1. 顶部导航栏 --- */
+    /* 隐藏 Docsify 原生按钮 (永远隐藏，因为我们有自己的) */
+    .sidebar-toggle { display: none !important; }
+
+    /* --- 1. 顶部导航栏 (Navbar) --- */
     #mizuki-navbar {
       position: fixed; top: 0; left: 0; width: 100%; height: var(--navbar-height);
+      z-index: 50; display: flex; align-items: center;
+      transition: all 0.3s;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      backdrop-filter: blur(10px);
+      /* 默认背景 (白天) */
       background-color: rgba(255,255,255,0.95);
       border-bottom: 1px solid rgba(128, 128, 128, 0.1);
-      z-index: 50; display: flex; align-items: center;
-      transition: background-color 0.3s; box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-      backdrop-filter: blur(10px);
     }
+    /* 夜间模式顶部 */
     body.docsify-dark-mode #mizuki-navbar {
-      background-color: rgba(18, 18, 18, 0.95); border-bottom: 1px solid rgba(255,255,255,0.05);
+      background-color: rgba(18, 18, 18, 0.95);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
     }
 
-    /* --- 2. Logo --- */
-    .nav-logo-box { margin-left: 60px; display: flex; align-items: center; cursor: pointer; height: 100%; }
+    /* Logo 区域 */
+    .nav-logo-box {
+      display: flex; align-items: center; cursor: pointer; height: 100%;
+      /* 默认左边距 (手机端给按钮留位置) */
+      padding-left: 60px; 
+      transition: padding-left 0.3s;
+    }
     .nav-logo-img { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--mizuki-pink); margin-right: 10px; }
     .nav-logo-text { font-weight: 900; font-size: 18px; color: var(--mizuki-pink); }
 
-    /* --- 3. 侧边栏 (手动接管) --- */
+    /* --- 2. 侧边栏 (Sidebar) - 通用样式 --- */
     .sidebar {
-      position: fixed !important; top: 0 !important; bottom: 0 !important; left: 0 !important;
-      width: 280px !important; z-index: 100000 !important;
-      border-right: 1px solid rgba(128, 128, 128, 0.1); padding-top: 80px !important;
-      /* 默认藏在左边 */
-      transform: translateX(-120%); 
-      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-      box-shadow: 4px 0 20px rgba(0,0,0,0.1); 
-      background-color: #ffffff !important; /* 强制不透明 */
+      padding-top: 80px !important;
+      border-right: 1px solid rgba(128, 128, 128, 0.1);
+      box-shadow: 4px 0 20px rgba(0,0,0,0.05);
+      /* 强制背景色，防止透明 */
+      background-color: var(--bg-color-light) !important;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    body.docsify-dark-mode .sidebar { background-color: #121212 !important; border-right: 1px solid rgba(255,255,255,0.05); }
-    
-    /* 激活状态：滑出来 */
-    body.my-sidebar-show .sidebar { transform: translateX(0) !important; }
-    
+    /* 夜间模式侧边栏 */
+    body.docsify-dark-mode .sidebar {
+      background-color: var(--bg-color-dark) !important;
+      border-right: 1px solid rgba(255,255,255,0.05);
+    }
+    /* 选中高亮 */
     .sidebar-nav li.active > a {
       border-right: none; border-left: 4px solid var(--mizuki-pink);
       background: linear-gradient(to right, rgba(233,126,179,0.1), transparent);
       color: var(--mizuki-pink) !important; font-weight: bold;
     }
 
-    /* --- 4. 遮罩层 --- */
-    #sidebar-overlay {
-      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.3); z-index: 99999;
-      display: none; opacity: 0; transition: opacity 0.3s;
-    }
-    body.my-sidebar-show #sidebar-overlay { display: block; opacity: 1; }
+    /* --- 3. 手机端适配 (Mobile) --- */
+    /* 当屏幕宽度小于 768px 时生效 */
+    @media screen and (max-width: 768px) {
+      /* 侧边栏默认隐藏在左边 */
+      .sidebar {
+        position: fixed !important; top: 0 !important; bottom: 0 !important; left: 0 !important;
+        width: 280px !important;
+        z-index: 100000 !important; /* 最高层级 */
+        transform: translateX(-120%); /* 藏起来 */
+      }
+      /* 激活时滑出来 */
+      body.my-sidebar-show .sidebar { transform: translateX(0) !important; }
 
-    /* 隐藏原生按钮，使用自定义按钮 */
-    .sidebar-toggle { display: none !important; }
-    #my-custom-toggle {
-      position: fixed; left: 10px; top: 10px; width: 44px; height: 44px;
-      z-index: 100001; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center;
-    }
-    #my-custom-toggle span { display: block; width: 24px; height: 3px; background-color: var(--mizuki-pink); margin: 2.5px 0; border-radius: 2px; }
+      /* 显示三道杠按钮 */
+      #my-custom-toggle {
+        display: flex;
+        position: fixed; left: 10px; top: 10px; width: 44px; height: 44px;
+        z-index: 100001; /* 比侧边栏还高 */
+        cursor: pointer; flex-direction: column; justify-content: center; align-items: center;
+      }
+      #my-custom-toggle span {
+        display: block; width: 24px; height: 3px; background-color: var(--mizuki-pink); margin: 2.5px 0; border-radius: 2px;
+      }
 
-    /* --- 5. 分页 & 其他 --- */
+      /* 遮罩层 (仅手机端需要) */
+      #sidebar-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.3); z-index: 99999;
+        display: none; opacity: 0; transition: opacity 0.3s;
+      }
+      body.my-sidebar-show #sidebar-overlay { display: block; opacity: 1; }
+      
+      /* 内容区域 */
+      .content { padding-top: 80px !important; margin-left: 0 !important; }
+    }
+
+    /* --- 4. 电脑端适配 (Desktop) --- */
+    /* 当屏幕宽度大于 769px 时生效 */
+    @media screen and (min-width: 769px) {
+      /* 侧边栏一直显示 */
+      .sidebar {
+        position: fixed !important; top: 0 !important; bottom: 0 !important; left: 0 !important;
+        width: 300px !important;
+        z-index: 40 !important; /* 降低层级，不遮挡其他 */
+        transform: translateX(0) !important; /* 永远显示 */
+        padding-top: 80px !important;
+      }
+
+      /* 隐藏三道杠按钮 */
+      #my-custom-toggle { display: none !important; }
+
+      /* 隐藏遮罩层 */
+      #sidebar-overlay { display: none !important; }
+
+      /* Logo 往左移，因为没有按钮占位了 */
+      .nav-logo-box { padding-left: 20px !important; }
+
+      /* 内容区域向右推，留出侧边栏位置 */
+      .content { 
+        padding-top: 80px !important; 
+        margin-left: 300px !important; /* 关键！给侧边栏腾位置 */
+        max-width: 1000px !important;
+      }
+    }
+
+    /* --- 5. 通用组件样式 --- */
+    /* 分页按钮 */
     .docsify-pagination-container {
       margin-top: 50px; padding-top: 20px; border-top: 1px solid rgba(128,128,128,0.1);
       display: flex !important; justify-content: space-between !important; flex-wrap: wrap; gap: 10px;
@@ -87,17 +157,18 @@
     .pagination-item-label { font-size: 16px; font-weight: bold; margin-top: 5px; }
     .pagination-item-title { font-size: 12px; opacity: 0.7; letter-spacing: 1px; }
 
-    .content { padding-top: 80px !important; max-width: 900px; }
-    #docsify-darklight-theme-bit { position: fixed !important; top: 15px !important; right: 15px !important; z-index: 100 !important; }
-    
-    /* PC端恢复默认 */
-    @media screen and (min-width: 769px) {
-      .sidebar { transform: translateX(0) !important; z-index: 40 !important; padding-top: 60px !important;}
-      #my-custom-toggle { display: none; }
-      .nav-logo-box { margin-left: 20px; }
-      #sidebar-overlay { display: none !important; }
+    /* 卡片链接 */
+    .card-link {
+      display: block; margin: 15px 0; padding: 20px; background: var(--codeBackgroundColor);
+      border: 1px solid rgba(233, 126, 179, 0.3); border-radius: 12px;
+      text-decoration: none !important; color: var(--textColor) !important;
     }
+    .card-desc { display: block; font-size: 0.85em; opacity: 0.8; margin-top: 5px; font-weight: normal; }
     
+    /* 切换按钮位置 */
+    #docsify-darklight-theme-bit { position: fixed !important; top: 15px !important; right: 15px !important; z-index: 100 !important; }
+
+    /* Loading 动画 */
     @keyframes pulse {
       0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(233, 126, 179, 0.7); }
       70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(233, 126, 179, 0); }
@@ -106,25 +177,31 @@
   </style>
 </head>
 <body>
+  <!-- 遮罩层 (手机端点击关闭侧边栏) -->
   <div id="sidebar-overlay" onclick="toggleMySidebar()"></div>
+
+  <!-- 顶部导航 -->
   <div id="mizuki-navbar">
     <div class="nav-logo-box" onclick="location.hash='/'">
       <img src="avatar.jpg" class="nav-logo-img" onerror="this.style.display='none'">
       <span class="nav-logo-text">Mizuki Bot</span>
     </div>
   </div>
+
+  <!-- 假按钮 (仅手机端显示) -->
   <div id="my-custom-toggle" onclick="toggleMySidebar()"><span></span><span></span><span></span></div>
   
+  <!-- Loading 区域 -->
   <div id="app">
     <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 85%; max-width: 400px;">
         <img src="avatar.jpg" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid #E97EB3; margin-bottom: 20px; animation: pulse 2s infinite;">
-        <div id="loading-text" style="font-size: 16px; color: #E97EB3; font-weight: bold; margin-bottom: 8px; line-height: 1.5;">少女祈祷中...</div>
+        <div id="loading-text" style="font-size: 16px; color: #E97EB3; font-weight: bold; margin-bottom: 8px; line-height: 1.5;">加载中...</div>
         <div id="loading-sub" style="font-size: 13px; color: #999;">Mizuki Bot</div>
     </div>
   </div>
 
-   <script>
-    // --- 瑞希台词 ---
+  <script>
+    // 瑞希语录
     try {
       const quotes = [
         { jp: "「 ボクは……ボクでいたいだけ 」", cn: "我只是……想做我自己罢了" },
@@ -137,17 +214,24 @@
         { jp: "「 未確定なままでいいんじゃない？ 」", cn: "保持未确定的状态，不也挺好吗？" },
         { jp: "「 ニーゴのみんなは、特別だから 」", cn: "因为 25 时的大家，是特别的" },
         { jp: "「 かわいいは正義！だよね？ 」", cn: "可爱即正义！对吧？" },
-        { jp: "「 ほらほら、早くしないと置いてっちゃうよ〜 」", cn: "看吧看吧，不快点的话就要丢下你咯〜" }
+        { jp: "「 永遠なんてない、だからこそ…… 」", cn: "永远什么的并不存在，正因为如此……" }
       ];
       const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
       const lt = document.getElementById('loading-text');
       const ls = document.getElementById('loading-sub');
       if (lt) lt.innerHTML = randomQuote.jp;
       if (ls) ls.innerHTML = randomQuote.cn;
-    } catch(e) {}
+    } catch(e) { console.log('Quote Error'); }
 
-    // --- 侧边栏开关 ---
+    // 侧边栏控制逻辑
     function toggleMySidebar() { document.body.classList.toggle('my-sidebar-show'); }
+    
+    // 监听 URL 变化自动关闭侧边栏
+    window.addEventListener('hashchange', function() {
+      if (document.body.classList.contains('my-sidebar-show')) {
+        document.body.classList.remove('my-sidebar-show');
+      }
+    });
 
     window.$docsify = {
       repo: 'https://github.com/HX-Wrdzgzs/Mizuki-Bot',
@@ -157,19 +241,6 @@
       auto2top: true,
       search: { placeholder: '🔍 搜指令...', noData: '找不到哦~', depth: 6 },
       pagination: { previousText: '← 上一章', nextText: '下一章 →', crossChapter: true },
-      
-      // --- 【核心修复】 Docsify 插件系统 ---
-      plugins: [
-        function(hook) {
-          // doneEach: 每次页面加载/路由切换完成后执行
-          hook.doneEach(function() {
-            // 只要页面加载完了，就强制把侧边栏收回去
-            // 这确保了只有在真正跳转成功后，侧边栏才会关闭
-            document.body.classList.remove('my-sidebar-show');
-          });
-        }
-      ],
-
       darklightTheme: {
         defaultTheme : 'light',
         siteFont : "apple-system, BlinkMacSystemFont, Roboto, sans-serif",
