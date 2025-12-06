@@ -30,8 +30,8 @@ function inject () {
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>Mizuki Bot 帮助文档</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no">
-  <!-- user-scalable=no 防止双击放大导致的误操作，提升APP感 -->
+  <!-- 关键：user-scalable=no 虽不推荐但有时能解决触摸冲突，配合 initial-scale=1 使用 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
   
   <link rel="stylesheet" href="./index_files/vue.css">
   <link rel="stylesheet" href="./index_files/style.min.css">
@@ -51,29 +51,49 @@ function inject () {
     /* 隐藏 Docsify 原生按钮 */
     .sidebar-toggle { display: none !important; }
 	
-    /* --- [关键修复] 手机端滚动设置 --- */
-    /* 必须允许 html 和 body 自然生长，不能锁定 100% */
+    /* ============================================== */
+    /* 🔥【核心修复】手机端无法滑动终极解决方案 🔥 */
+    /* ============================================== */
+    
+    /* 1. 强制 Html 和 Body 解除高度锁定，允许自然滚动 */
     html {
       height: auto !important;
-      min-height: 100%;
+      min-height: 100% !important;
+      overflow-y: auto !important; /* 强制显示滚动逻辑 */
+      overflow-x: hidden !important;
     }
     
     body {
       height: auto !important;
-      min-height: 100%;
-      position: relative;
-      overflow-x: hidden; /* 禁止横向滚动 */
-      -webkit-overflow-scrolling: touch; /* iOS 惯性滚动 */
+      min-height: 100% !important;
+      width: 100% !important;
+      position: static !important; /* 防止被设置为 fixed 导致卡死 */
+      overflow-y: visible !important; /* 让 HTML 负责滚动条 */
+      overflow-x: hidden !important;
+      -webkit-overflow-scrolling: touch !important; /* iOS 惯性滚动 */
+      touch-action: pan-y !important; /* 明确允许垂直拖动 */
     }
 
-    .content { 
-        /* 让内容撑开容器，使用原生滚动条 */
-        height: auto !important;
-        overflow: visible !important;
-        min-height: calc(100vh - 80px);
+    /* 2. 确保内容容器也不会卡死 */
+    main, .content {
+      height: auto !important;
+      overflow: visible !important;
+      position: relative !important;
     }
     
-    .markdown-section { min-height: 100%; }
+    .markdown-section { 
+      min-height: 100%; 
+      padding-bottom: 50px; /* 底部留白，防止滑动到底部被遮挡 */
+    }
+
+    /* 3. 修复内容区域的边距 */
+    .content { 
+        padding-top: 80px !important; 
+        /* 手机端默认无左边距 */
+        margin-left: 0 !important; 
+    }
+
+    /* ============================================== */
 
     /* --- 1. 顶部导航栏 (Navbar) --- */
     #mizuki-navbar {
@@ -117,22 +137,24 @@ function inject () {
       color: var(--mizuki-pink) !important; font-weight: bold;
     }
 
-    /* --- 3. 手机端适配 --- */
+    /* --- 3. 手机端适配 (Mobile) --- */
+    /* 当屏幕宽度小于 768px 时生效 */
     @media screen and (max-width: 768px) {
       .sidebar {
         position: fixed !important; top: 0 !important; bottom: 0 !important; left: 0 !important;
         width: 280px !important;
-        z-index: 100000 !important;
-        transform: translateX(-120%);
+        z-index: 100000 !important; /* 最高层级 */
+        transform: translateX(-120%); /* 藏起来 */
       }
-      /* 修复：侧边栏打开时锁定 Body 滚动 */
+      
+      /* 当侧边栏打开时，锁住 body 防止背景滚动（仅在打开侧边栏时生效） */
       body.my-sidebar-show { overflow: hidden !important; height: 100vh !important; }
       body.my-sidebar-show .sidebar { transform: translateX(0) !important; }
 
       #my-custom-toggle {
         display: flex;
         position: fixed; left: 10px; top: 10px; width: 44px; height: 44px;
-        z-index: 100001;
+        z-index: 100001; /* 比侧边栏还高 */
         cursor: pointer; flex-direction: column; justify-content: center; align-items: center;
       }
       #my-custom-toggle span {
@@ -146,49 +168,43 @@ function inject () {
       }
       body.my-sidebar-show #sidebar-overlay { display: block; opacity: 1; }
       
+      /* 内容区域 */
       .content { padding-top: 80px !important; margin-left: 0 !important; }
     }
 
-    /* --- 4. 电脑端适配 --- */
+    /* --- 4. 电脑端适配 (Desktop) --- */
     @media screen and (min-width: 769px) {
       .sidebar {
         position: fixed !important; top: 0 !important; bottom: 0 !important; left: 0 !important;
         width: 300px !important;
-        z-index: 40 !important;
-        transform: translateX(0) !important;
+        z-index: 40 !important; /* 降低层级，不遮挡其他 */
+        transform: translateX(0) !important; /* 永远显示 */
         padding-top: 80px !important;
       }
+
       #my-custom-toggle { display: none !important; }
       #sidebar-overlay { display: none !important; }
       .nav-logo-box { padding-left: 20px !important; }
       .content { 
         padding-top: 80px !important; 
-        margin-left: 300px !important;
+        margin-left: 300px !important; /* 给侧边栏腾位置 */
         max-width: 1000px !important;
       }
     }
 
     /* --- 5. 通用组件样式 --- */
-    /* 自定义分页按钮样式 */
+    /* 分页按钮 */
     .my-custom-pagination {
-      margin-top: 50px; 
-      padding-top: 20px; 
-      border-top: 1px solid rgba(128,128,128,0.1);
-      display: flex !important; 
-      justify-content: space-between !important; 
-      flex-wrap: wrap; 
-      gap: 10px;
+      margin-top: 50px; padding-top: 20px; border-top: 1px solid rgba(128,128,128,0.1);
+      display: flex !important; justify-content: space-between !important; flex-wrap: wrap; gap: 10px;
     }
     .pagination-item {
-      flex: 1; min-width: 120px; margin-top: 10px; 
-      border: 1px solid rgba(233, 126, 179, 0.4) !important;
-      border-radius: 12px !important; padding: 15px !important; 
-      transition: all 0.3s; display: flex; flex-direction: column;
+      flex: 1; min-width: 120px; margin-top: 10px; border: 1px solid rgba(233, 126, 179, 0.4) !important;
+      border-radius: 12px !important; padding: 15px !important; transition: all 0.3s; display: flex; flex-direction: column;
     }
     .pagination-item:hover {
       background-color: var(--mizuki-pink); color: white !important;
-      border-color: var(--mizuki-pink) !important; transform: translateY(-2px); 
-      box-shadow: 0 4px 12px rgba(233, 126, 179, 0.3);
+      border-color: var(--mizuki-pink) !important; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(233, 126, 179, 0.3);
     }
     .pagination-item-label { font-size: 16px; font-weight: bold; margin-top: 5px; }
     .pagination-item-title { font-size: 12px; opacity: 0.7; letter-spacing: 1px; }
