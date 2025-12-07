@@ -2,117 +2,176 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>Mizuki Bot - Loading...</title>
+  <title>Mizuki Bot 帮助文档</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   
-  <!-- HTML 自动跳转 (2秒后跳转到 home.html) -->
-  <meta http-equiv="refresh" content="2;URL=home.html" />
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify/themes/vue.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/style.min.css">
 
   <style>
-    :root {
-      --mizuki-pink: #E97EB3;
-      --bg-color: #f8f8f8;
-      --text-color: #34495e;
+    /* 基础样式 */
+    html { scroll-behavior: smooth; }
+    :root { --mizuki-pink: #E97EB3; --niigo-purple: #8A66C2; --navbar-height: 60px; }
+
+    /* 顶部导航栏 */
+    #mizuki-navbar {
+      position: fixed; top: 0; left: 0; width: 100%; height: var(--navbar-height);
+      background-color: rgba(255,255,255,0.95);
+      border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+      z-index: 50; display: flex; align-items: center;
+      transition: background-color 0.3s; backdrop-filter: blur(10px);
+    }
+    body.docsify-dark-mode #mizuki-navbar {
+      background-color: rgba(18, 18, 18, 0.95); border-bottom: 1px solid rgba(255,255,255,0.05);
     }
 
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: var(--bg-color);
-      font-family: apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden; /* 禁止滚动 */
+    /* Logo */
+    .nav-logo-box { margin-left: 60px; display: flex; align-items: center; cursor: pointer; height: 100%; }
+    .nav-logo-img { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--mizuki-pink); margin-right: 10px; }
+    .nav-logo-text { font-weight: 900; font-size: 18px; color: var(--mizuki-pink); }
+
+    /* 侧边栏 */
+    .sidebar {
+      position: fixed !important; top: 0 !important; bottom: 0 !important; left: 0 !important;
+      width: 280px !important; z-index: 100000 !important;
+      border-right: 1px solid rgba(128, 128, 128, 0.1); padding-top: 80px !important;
+      transform: translateX(-120%); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      box-shadow: 4px 0 20px rgba(0,0,0,0.1); background-color: #ffffff !important;
+    }
+    body.docsify-dark-mode .sidebar { background-color: #121212 !important; border-right: 1px solid rgba(255,255,255,0.05); }
+    body.my-sidebar-show .sidebar { transform: translateX(0) !important; }
+    
+    .sidebar-nav li.active > a {
+      border-right: none; border-left: 4px solid var(--mizuki-pink);
+      background: linear-gradient(to right, rgba(233,126,179,0.1), transparent);
+      color: var(--mizuki-pink) !important; font-weight: bold;
     }
 
-    .loader-container {
-      text-align: center;
-      width: 90%;
-      max-width: 400px;
+    /* 遮罩层 */
+    #sidebar-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.3); z-index: 99999;
+      display: none; opacity: 0; transition: opacity 0.3s;
     }
+    body.my-sidebar-show #sidebar-overlay { display: block; opacity: 1; }
 
-    .avatar {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      border: 4px solid var(--mizuki-pink);
-      margin-bottom: 20px;
-      box-shadow: 0 0 20px rgba(233, 126, 179, 0.4);
-      animation: pulse 2s infinite;
+    .sidebar-toggle { display: none !important; }
+    #my-custom-toggle {
+      position: fixed; left: 10px; top: 10px; width: 44px; height: 44px;
+      z-index: 100001; cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center;
     }
+    #my-custom-toggle span { display: block; width: 24px; height: 3px; background-color: var(--mizuki-pink); margin: 2.5px 0; border-radius: 2px; }
 
-    .loading-text {
-      font-size: 18px;
-      color: var(--mizuki-pink);
-      font-weight: bold;
-      margin-bottom: 10px;
-      letter-spacing: 1px;
+    /* 分页按钮 */
+    .docsify-pagination-container {
+      margin-top: 50px; padding-top: 20px; border-top: 1px solid rgba(128,128,128,0.1);
+      display: flex !important; justify-content: space-between !important; flex-wrap: wrap; gap: 10px;
     }
-
-    .quote-text {
-      font-size: 14px;
-      color: #888;
-      font-style: italic;
-      line-height: 1.6;
-      min-height: 45px; /* 防止文字跳动 */
+    .pagination-item {
+      flex: 1; min-width: 120px; margin-top: 10px; border: 1px solid rgba(233, 126, 179, 0.4) !important;
+      border-radius: 12px !important; padding: 15px !important; transition: all 0.3s; display: flex; flex-direction: column;
     }
+    .pagination-item-prev { text-align: left; align-items: flex-start; }
+    .pagination-item-next { text-align: right; align-items: flex-end; }
+    .pagination-item:hover {
+      background-color: var(--mizuki-pink); color: white !important;
+      border-color: var(--mizuki-pink) !important; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(233, 126, 179, 0.3);
+    }
+    .pagination-item-label { font-size: 16px; font-weight: bold; margin-top: 5px; }
+    .pagination-item-title { font-size: 12px; opacity: 0.7; letter-spacing: 1px; }
 
-    /* 呼吸灯动画 */
+    /* 其他 */
+    .content { padding-top: 80px !important; max-width: 900px; }
+    #docsify-darklight-theme-bit { position: fixed !important; top: 15px !important; right: 15px !important; z-index: 100 !important; }
+    .card-link {
+      display: block; margin: 15px 0; padding: 20px; background: var(--codeBackgroundColor);
+      border: 1px solid rgba(233, 126, 179, 0.3); border-radius: 12px;
+      text-decoration: none !important; color: var(--textColor) !important;
+    }
+    .card-desc { display: block; font-size: 0.85em; opacity: 0.8; margin-top: 5px; font-weight: normal; }
+
+    @media screen and (min-width: 769px) {
+      .sidebar { transform: translateX(0) !important; z-index: 40 !important; padding-top: 60px !important;}
+      #my-custom-toggle { display: none; }
+      .nav-logo-box { margin-left: 20px; }
+      #sidebar-overlay { display: none !important; }
+    }
+    
     @keyframes pulse {
       0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(233, 126, 179, 0.7); }
-      70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(233, 126, 179, 0); }
+      70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(233, 126, 179, 0); }
       100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(233, 126, 179, 0); }
     }
   </style>
 </head>
 <body>
-
-  <div class="loader-container">
-    <!-- 头像 -->
-    <img src="Picture/avatar.jpg" class="avatar" onerror="this.style.display='none'">
-    
-    <!-- 加载文字 -->
-    <div class="loading-text">加载中</div>
-    
-    <!-- 语录显示区域 -->
-    <div id="quote-box" class="quote-text">Loading...</div>
+  <div id="sidebar-overlay" onclick="toggleMySidebar()"></div>
+  <div id="mizuki-navbar">
+    <div class="nav-logo-box" onclick="location.hash='/'">
+      <img src="Picture/avatar.jpg" class="nav-logo-img" onerror="this.style.display='none'">
+      <span class="nav-logo-text">Mizuki Bot</span>
+    </div>
+  </div>
+  <div id="my-custom-toggle" onclick="toggleMySidebar()"><span></span><span></span><span></span></div>
+  
+  <!-- Loading 区域 -->
+  <div id="app">
+    <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; width: 85%; max-width: 400px;">
+        <img src="Picture/avatar.jpg" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid #E97EB3; margin-bottom: 20px; animation: pulse 2s infinite;">
+        <div id="loading-text" style="font-size: 16px; color: #E97EB3; font-weight: bold; margin-bottom: 8px; line-height: 1.5;">少女祈祷中...</div>
+        <div id="loading-sub" style="font-size: 13px; color: #999;">Mizuki Bot</div>
+    </div>
   </div>
 
   <script>
-    // 1. 瑞希语录逻辑
+    // --- 瑞希语录 ---
     try {
       const quotes = [
         { jp: "「 ボクは……ボクでいたいだけ 」", cn: "我只是……想做我自己罢了" },
         { jp: "「 秘密って、なんだかワクワクしない？ 」", cn: "所谓秘密，不觉得令人有些兴奋吗？" },
         { jp: "「 ま、ボクは可愛ければなんでもいいけどね♪ 」", cn: "嘛，对我来说只要可爱就都行啦♪" },
         { jp: "「 25時、ナイトコードで。 」", cn: "25时，在 Nightcord 见。" },
-        { jp: "「 逃げ続けるのも、悪くないかもね 」", cn: "一直逃避下去，或许也不坏呢" },
-        { jp: "「 ボクの正体？ ……ふふ、秘密だよ 」", cn: "我的真面目？……呵呵，是秘密哦" },
-        { jp: "「 君も、こっち側に来る？ 」", cn: "你也要，来这边吗？" },
-        { jp: "「 未確定なままでいいんじゃない？ 」", cn: "保持未确定的状态，不也挺好吗？" },
-        { jp: "「 ニーゴのみんなは、特別だから 」", cn: "因为 25 时的大家，是特别的" },
-        { jp: "「 かわいいは正義！だよね？ 」", cn: "可爱即正义！对吧？" },
-        { jp: "「 永遠なんてない、だからこそ…… 」", cn: "永远什么的并不存在，正因为如此……" }
+        { jp: "「 ボクの正体？ ……ふふ、秘密だよ 」", cn: "我的真面目？……呵呵，是秘密哦" }
       ];
-      
-      const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-      const quoteBox = document.getElementById('quote-box');
-      if (quoteBox) {
-        quoteBox.innerHTML = `${randomQuote.jp}<br><span style="font-size:12px; opacity:0.8">${randomQuote.cn}</span>`;
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+      const lt = document.getElementById('loading-text');
+      const ls = document.getElementById('loading-sub');
+      if (lt) lt.innerHTML = randomQuote.jp;
+      if (ls) ls.innerHTML = randomQuote.cn;
+    } catch(e) {}
+
+    function toggleMySidebar() { document.body.classList.toggle('my-sidebar-show'); }
+    
+    // 跳转自动关闭侧边栏
+    window.addEventListener('hashchange', function() {
+      if (document.body.classList.contains('my-sidebar-show')) {
+        document.body.classList.remove('my-sidebar-show');
       }
-    } catch(e) { 
-      console.log('Quote Error'); 
+    });
+
+    window.$docsify = {
+      repo: 'https://github.com/HX-Wrdzgzs/Mizuki-Bot',
+      name: '',
+      loadSidebar: true,
+      subMaxLevel: 3,
+      auto2top: true,
+      homepage: 'README.md', // 明确指定 README.md 为主页
+      search: { placeholder: '🔍 搜指令...', noData: '找不到哦~', depth: 6 },
+      pagination: { previousText: '← 上一章', nextText: '下一章 →', crossChapter: true },
+      darklightTheme: {
+        defaultTheme : 'light',
+        siteFont : "apple-system, BlinkMacSystemFont, Roboto, sans-serif",
+        dark: { accent: '#E97EB3', toogleBackground : '#ffffff', background: '#121212', textColor: '#f0f0f0', codeBackgroundColor: '#202020' },
+        light: { accent: '#E97EB3', toogleBackground : '#091a28', background: '#ffffff', textColor: '#34495e', codeBackgroundColor: '#f8f8f8' }
+      }
     }
-
-    // 2. JS 强制跳转逻辑 (作为 meta refresh 的备份)
-    setTimeout(function() {
-      // 如果你想跳转到其他页面，请修改这里
-      window.location.href = "home.html";
-    }, 2000); // 1000毫秒 = 1秒
   </script>
-
+  <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/index.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js"></script>
 </body>
 </html>
