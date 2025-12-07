@@ -1,5 +1,5 @@
 <div style="text-align: center; margin-top: 20px;">
-  <img src="avatar.jpg" width="120" height="120" style="border-radius: 50%; box-shadow: 0 0 20px rgba(233, 126, 179, 0.5); border: 3px solid #E97EB3; margin-bottom: 20px;">
+  <img src="Picture/avatar.jpg" width="120" height="120" style="border-radius: 50%; box-shadow: 0 0 20px rgba(233, 126, 179, 0.5); border: 3px solid #E97EB3; margin-bottom: 20px;">
   
   <h1 style="background: linear-gradient(135deg, #E97EB3 0%, #8A66C2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 10px 0;">
     Mizuki Bot 帮助文档
