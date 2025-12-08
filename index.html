@@ -16,12 +16,12 @@
       --docsify_darklight_theme_color: #E97EB3;
     }
 
-    /* 1. 侧边栏 Logo 区域 (内置在侧边栏顶部) */
+    /* 1. 侧边栏 Logo 区域 */
     .sidebar-logo-container {
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 30px 0 10px 0; /* 上留白，避开三道杠 */
+      padding: 30px 0 10px 0;
     }
     .sidebar-logo {
       width: 90px;
@@ -41,34 +41,40 @@
       font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    /* 2. 汉堡按钮 (三道杠) - 固定在左上角，但在侧边栏之上 */
+    /* 2. 汉堡按钮 (三道杠) - 位于左上角 */
     .sidebar-toggle {
       position: fixed !important;
       top: 10px !important;
       left: 10px !important;
       bottom: auto !important;
       background: transparent !important;
-      z-index: 20000 !important; /* 确保它能被点到 */
+      z-index: 20000 !important; 
       padding: 10px !important;
     }
     
-    /* 3. 侧边栏层级修复 (防止被内容盖住) */
+    /* 3. 侧边栏层级修复 */
     .sidebar {
-      z-index: 10000 !important; /* 极高层级 */
+      z-index: 10000 !important;
       padding-top: 0 !important;
     }
-    
-    /* 侧边栏打开时，调整 body 防止内容被完全遮挡(可选) */
-    body.ready.close .sidebar-toggle {
-      /* 侧边栏关闭时，三道杠颜色 */
-      background: rgba(255,255,255,0.8) !important;
+
+    /* 4. 搜索结果样式优化 (防止结果太宽撑开页面) */
+    .matching-post {
+      border-bottom: 1px solid #eee;
+    }
+    .matching-post h2, .matching-post h3 {
+      font-size: 1rem !important;
+    }
+    /* 强制隐藏搜索结果中的代码块，作为双重保险 */
+    .matching-post code {
+      display: none !important; 
     }
 
-    /* 4. Loading 遮罩层 (去掉了"Loading"文字，只留语录) */
+    /* 5. Loading 遮罩层 (纯净版) */
     #loading-mask {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background-color: #fff;
-      z-index: 999999; /* 最高级 */
+      z-index: 999999;
       display: flex; flex-direction: column; justify-content: center; align-items: center;
       transition: opacity 0.5s ease;
     }
@@ -80,7 +86,6 @@
       margin-bottom: 30px;
       animation: breathe 2s infinite ease-in-out;
     }
-    /* 语录样式 */
     #loading-quote-jp { 
       font-size: 1.1rem; font-weight: bold; color: #E97EB3; 
       margin-bottom: 10px; text-align: center; padding: 0 20px;
@@ -89,18 +94,17 @@
       font-size: 0.95rem; color: #888; font-style: italic; 
       text-align: center; padding: 0 20px;
     }
-
     @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
   </style>
 </head>
 
 <body>
 
-  <!-- ✨ Loading 遮罩 (已移除 "Loading..." 字样) ✨ -->
+  <!-- ✨ Loading 遮罩 ✨ -->
   <div id="loading-mask">
     <img id="loading-avatar" src="Picture/avatar.jpg" alt="Mizuki">
-    <div id="loading-quote-jp"></div> <!-- 日语 -->
-    <div id="loading-quote-cn"></div> <!-- 中文 -->
+    <div id="loading-quote-jp"></div>
+    <div id="loading-quote-cn"></div>
   </div>
 
   <div id="app"></div>
@@ -126,7 +130,6 @@
     ];
 
     const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    // 写入 ID 对应的 div
     const elJp = document.getElementById('loading-quote-jp');
     const elCn = document.getElementById('loading-quote-cn');
     if (elJp) elJp.innerHTML = randomQuote.jp;
@@ -144,21 +147,32 @@
     });
 
     window.$docsify = {
-      // 👇 这里是重点：把头像和标题写在 Sidebar 内部
-      // 使用 HTML 结构，不加蝴蝶结，干净利落
       name: `
         <div class="sidebar-logo-container">
           <img src="Picture/avatar.jpg" class="sidebar-logo">
           <span class="sidebar-title-text">Mizuki Bot</span>
         </div>
       `,
-      
       repo: '', 
       
       loadSidebar: true,
       subMaxLevel: 3,
       auto2top: true,
-      search: { placeholder: '🔍 搜指令...', noData: '找不到哦~', depth: 6 },
+      
+      // ✨✨✨ 搜索配置修复 ✨✨✨
+      search: {
+        paths: 'auto',
+        placeholder: '🔍 搜指令...',
+        noData: '找不到哦~',
+        
+        // 关键修复 1：降低深度为 3 (仅搜索 H1, H2, H3 标题)
+        // 这样可以完全避开正文里的 HTML 代码块
+        depth: 3, 
+        
+        // 关键修复 2：设置命名空间，修改这里会强制清除旧缓存
+        // 解决你看不到新变化的问题
+        namespace: 'mizuki-bot-fix-v1', 
+      },
       
       pagination: {
         previousText: '← 上一章',
