@@ -16,12 +16,62 @@
       --docsify_darklight_theme_color: #E97EB3;
     }
 
-    /* 1. 侧边栏 Logo 区域 */
+    /* =========================================================
+       1. 解决侧边栏“打架”问题
+       给侧边栏顶部增加 padding，把内容往下推，
+       给左上角的“三道杠”腾出位置。
+       ========================================================= */
+    .sidebar {
+      padding-top: 60px !important; /* 👇 关键：留出顶部空间 */
+      z-index: 10000 !important;
+    }
+
+    /* 固定三道杠在左上角 */
+    .sidebar-toggle {
+      position: fixed !important;
+      top: 10px !important;
+      left: 10px !important;
+      background: rgba(255, 255, 255, 0.8) !important; /* 加个半透明底色防止看不清 */
+      border-radius: 5px;
+      padding: 8px !important;
+      z-index: 20000 !important;
+    }
+    body.dark .sidebar-toggle {
+      background: rgba(0, 0, 0, 0.6) !important;
+    }
+
+    /* =========================================================
+       2. 解决搜索结果“爆源码” (抽象) 问题
+       强制隐藏搜索结果中的【正文内容】，【只显示标题】。
+       这样不管你 Markdown 里写了多少 HTML，都不会被搜出来显示。
+       ========================================================= */
+    .matching-post p, 
+    .matching-post code, 
+    .matching-post span {
+      display: none !important; /* 👇 暴力隐藏所有正文摘要 */
+    }
+    
+    /* 调整搜索结果标题的样式，让它看起来更整洁 */
+    .matching-post h2, 
+    .matching-post h3 {
+      font-size: 1rem !important;
+      margin-bottom: 5px !important;
+      color: #E97EB3 !important; /* 标题用粉色 */
+    }
+    .matching-post {
+      border-bottom: 1px solid rgba(0,0,0,0.05); /* 淡淡的分隔线 */
+      padding: 10px 0;
+    }
+
+
+    /* =========================================================
+       3. 侧边栏 Logo 样式 (Mizuki Bot 头像)
+       ========================================================= */
     .sidebar-logo-container {
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 30px 0 10px 0;
+      margin-bottom: 15px;
     }
     .sidebar-logo {
       width: 90px;
@@ -37,40 +87,10 @@
       font-size: 1.3rem;
       font-weight: bold;
       color: #E97EB3;
-      margin-top: 15px;
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      margin-top: 10px;
     }
 
-    /* 2. 汉堡按钮 (三道杠) - 位于左上角 */
-    .sidebar-toggle {
-      position: fixed !important;
-      top: 10px !important;
-      left: 10px !important;
-      bottom: auto !important;
-      background: transparent !important;
-      z-index: 20000 !important; 
-      padding: 10px !important;
-    }
-    
-    /* 3. 侧边栏层级修复 */
-    .sidebar {
-      z-index: 10000 !important;
-      padding-top: 0 !important;
-    }
-
-    /* 4. 搜索结果样式优化 (防止结果太宽撑开页面) */
-    .matching-post {
-      border-bottom: 1px solid #eee;
-    }
-    .matching-post h2, .matching-post h3 {
-      font-size: 1rem !important;
-    }
-    /* 强制隐藏搜索结果中的代码块，作为双重保险 */
-    .matching-post code {
-      display: none !important; 
-    }
-
-    /* 5. Loading 遮罩层 (纯净版) */
+    /* 4. Loading 遮罩层 (纯净版，无 Loading 文字) */
     #loading-mask {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background-color: #fff;
@@ -83,17 +103,11 @@
     #loading-avatar {
       width: 110px; height: 110px; border-radius: 50%;
       box-shadow: 0 0 25px rgba(233, 126, 179, 0.5);
-      margin-bottom: 30px;
+      margin-bottom: 25px;
       animation: breathe 2s infinite ease-in-out;
     }
-    #loading-quote-jp { 
-      font-size: 1.1rem; font-weight: bold; color: #E97EB3; 
-      margin-bottom: 10px; text-align: center; padding: 0 20px;
-    }
-    #loading-quote-cn { 
-      font-size: 0.95rem; color: #888; font-style: italic; 
-      text-align: center; padding: 0 20px;
-    }
+    #loading-quote-jp { font-size: 1.1rem; font-weight: bold; color: #E97EB3; margin-bottom: 10px; text-align: center; padding: 0 20px;}
+    #loading-quote-cn { font-size: 0.95rem; color: #888; font-style: italic; text-align: center; padding: 0 20px;}
     @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
   </style>
 </head>
@@ -147,6 +161,7 @@
     });
 
     window.$docsify = {
+      // 侧边栏 Logo (HTML)
       name: `
         <div class="sidebar-logo-container">
           <img src="Picture/avatar.jpg" class="sidebar-logo">
@@ -159,19 +174,17 @@
       subMaxLevel: 3,
       auto2top: true,
       
-      // ✨✨✨ 搜索配置修复 ✨✨✨
+      // ✨✨✨ 搜索配置 ✨✨✨
       search: {
         paths: 'auto',
         placeholder: '🔍 搜指令...',
         noData: '找不到哦~',
         
-        // 关键修复 1：降低深度为 3 (仅搜索 H1, H2, H3 标题)
-        // 这样可以完全避开正文里的 HTML 代码块
+        // 关键：只搜标题，深度为 3
         depth: 3, 
         
-        // 关键修复 2：设置命名空间，修改这里会强制清除旧缓存
-        // 解决你看不到新变化的问题
-        namespace: 'mizuki-bot-fix-v1', 
+        // 强制刷新缓存
+        namespace: 'mizuki-bot-final-fix', 
       },
       
       pagination: {
