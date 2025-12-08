@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>Mizuki Bot</title> <!-- 浏览器标签页默认标题 -->
+  <title>Mizuki Bot</title>
   <link rel="icon" href="Picture/avatar.jpg">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no">
@@ -16,129 +16,97 @@
       --docsify_darklight_theme_color: #E97EB3;
     }
 
-    /* =========================================
-       1. 新增：顶部固定导航栏 (Top Header)
-       ========================================= */
-    .app-header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 50px; /* 顶栏高度 */
-      background-color: rgba(255, 255, 255, 0.95); /* 半透明白底 */
-      backdrop-filter: blur(5px); /* 毛玻璃效果 */
-      box-shadow: 0 1px 6px rgba(0,0,0,0.05); /* 淡淡的阴影 */
-      z-index: 999; /* 保证在内容之上 */
-      display: flex;
-      align-items: center;
-      justify-content: center; /* 标题居中 */
-      transition: background-color 0.3s;
-    }
-
-    /* 顶栏标题文字 */
-    .app-header-title {
-      font-size: 1.1rem;
-      font-weight: bold;
-      color: #333;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    }
-
-    /* 夜间模式适配 */
-    body.dark .app-header {
-      background-color: rgba(18, 18, 18, 0.95);
-      border-bottom: 1px solid #333;
-    }
-    body.dark .app-header-title {
-      color: #f0f0f0;
-    }
-
-    /* 修正：为了不被顶栏挡住内容，给主体加一个上边距 */
-    main {
-      margin-top: 50px !important;
-    }
-
-    /* =========================================
-       2. 按钮位置微调 (整合进顶栏)
-       ========================================= */
-    /* 侧边栏开关 (三道杠) - 固定在左上角 */
-    .sidebar-toggle {
-      position: fixed !important;
-      top: 0 !important;
-      left: 0 !important;
-      width: 50px; /* 宽度和顶栏高度一致，方便点击 */
-      height: 50px;
-      padding: 16px !important; /* 调整内部间距使其垂直居中 */
-      background: transparent !important;
-      z-index: 1000 !important; /* 比顶栏高一层 */
-    }
-    
-    /* 侧边栏样式优化 */
+    /* 1. 侧边栏 Logo 区域 (内置在侧边栏顶部) */
     .sidebar-logo-container {
-      text-align: center;
-      margin-top: 30px;
-      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 30px 0 10px 0; /* 上留白，避开三道杠 */
     }
     .sidebar-logo {
-      width: 90px; height: 90px;
+      width: 90px;
+      height: 90px;
       border-radius: 50%;
-      border: 3px solid #E97EB3; /* 简单的粉圈，不加花哨特效 */
+      border: 3px solid #E97EB3;
+      box-shadow: 0 4px 15px rgba(233, 126, 179, 0.3);
       transition: transform 0.3s;
     }
-    .sidebar-logo:hover { transform: scale(1.05); }
+    .sidebar-logo:hover { transform: rotate(10deg); }
     
     .sidebar-title-text {
-      display: block;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       font-weight: bold;
       color: #E97EB3;
-      margin-top: 10px;
+      margin-top: 15px;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    /* =========================================
-       3. Loading 遮罩层 (全屏)
-       ========================================= */
+    /* 2. 汉堡按钮 (三道杠) - 固定在左上角，但在侧边栏之上 */
+    .sidebar-toggle {
+      position: fixed !important;
+      top: 10px !important;
+      left: 10px !important;
+      bottom: auto !important;
+      background: transparent !important;
+      z-index: 20000 !important; /* 确保它能被点到 */
+      padding: 10px !important;
+    }
+    
+    /* 3. 侧边栏层级修复 (防止被内容盖住) */
+    .sidebar {
+      z-index: 10000 !important; /* 极高层级 */
+      padding-top: 0 !important;
+    }
+    
+    /* 侧边栏打开时，调整 body 防止内容被完全遮挡(可选) */
+    body.ready.close .sidebar-toggle {
+      /* 侧边栏关闭时，三道杠颜色 */
+      background: rgba(255,255,255,0.8) !important;
+    }
+
+    /* 4. Loading 遮罩层 (去掉了"Loading"文字，只留语录) */
     #loading-mask {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background-color: #fff;
-      z-index: 999999;
+      z-index: 999999; /* 最高级 */
       display: flex; flex-direction: column; justify-content: center; align-items: center;
       transition: opacity 0.5s ease;
     }
     body.dark #loading-mask { background-color: #121212; }
 
     #loading-avatar {
-      width: 100px; height: 100px; border-radius: 50%;
-      box-shadow: 0 0 20px rgba(233, 126, 179, 0.4);
-      margin-bottom: 20px;
+      width: 110px; height: 110px; border-radius: 50%;
+      box-shadow: 0 0 25px rgba(233, 126, 179, 0.5);
+      margin-bottom: 30px;
       animation: breathe 2s infinite ease-in-out;
     }
-    #loading-text { font-size: 1.2rem; font-weight: bold; color: #E97EB3; margin-bottom: 10px; text-align: center; padding: 0 20px;}
-    #loading-sub { font-size: 0.9rem; color: #888; font-style: italic; text-align: center; padding: 0 20px;}
+    /* 语录样式 */
+    #loading-quote-jp { 
+      font-size: 1.1rem; font-weight: bold; color: #E97EB3; 
+      margin-bottom: 10px; text-align: center; padding: 0 20px;
+    }
+    #loading-quote-cn { 
+      font-size: 0.95rem; color: #888; font-style: italic; 
+      text-align: center; padding: 0 20px;
+    }
 
-    @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+    @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
   </style>
 </head>
 
 <body>
 
-  <!-- ✨ 1. 全屏 Loading (2秒) ✨ -->
+  <!-- ✨ Loading 遮罩 (已移除 "Loading..." 字样) ✨ -->
   <div id="loading-mask">
     <img id="loading-avatar" src="Picture/avatar.jpg" alt="Mizuki">
-    <div id="loading-text">Loading...</div>
-    <div id="loading-sub">Wait a moment...</div>
+    <div id="loading-quote-jp"></div> <!-- 日语 -->
+    <div id="loading-quote-cn"></div> <!-- 中文 -->
   </div>
 
-  <!-- ✨ 2. 顶部固定导航栏 (Top Header) ✨ -->
-  <nav class="app-header">
-    <!-- 中间的标题 -->
-    <span class="app-header-title">Mizuki Bot 帮助文档</span>
-  </nav>
-
-  <!-- Docsify 挂载点 -->
   <div id="app"></div>
 
   <script>
-    // --- 瑞希语录 (保持不变) ---
+    // --- 🎀 瑞希语录 ---
     const quotes = [
       { jp: "「 ボクは……ボクでいたいだけ 」", cn: "我只是……想做我自己罢了" },
       { jp: "「 秘密って、なんだかワクワクしない？ 」", cn: "所谓秘密，不觉得令人有些兴奋吗？" },
@@ -158,12 +126,13 @@
     ];
 
     const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
-    const lt = document.getElementById('loading-text');
-    const ls = document.getElementById('loading-sub');
-    if (lt) lt.innerHTML = randomQuote.jp;
-    if (ls) ls.innerHTML = randomQuote.cn;
+    // 写入 ID 对应的 div
+    const elJp = document.getElementById('loading-quote-jp');
+    const elCn = document.getElementById('loading-quote-cn');
+    if (elJp) elJp.innerHTML = randomQuote.jp;
+    if (elCn) elCn.innerHTML = randomQuote.cn;
 
-    // --- ⏳ Loading 强制显示 2秒 (已修改) ---
+    // --- ⏳ Loading 强制 2秒 ---
     window.addEventListener('load', function() {
       setTimeout(function() {
         const mask = document.getElementById('loading-mask');
@@ -171,11 +140,12 @@
           mask.style.opacity = '0';
           setTimeout(() => mask.remove(), 500); 
         }
-      }, 2000); // 2000毫秒 = 2秒
+      }, 2000); 
     });
 
     window.$docsify = {
-      // 这里的 name 设置侧边栏顶部的名字（不带蝴蝶结）
+      // 👇 这里是重点：把头像和标题写在 Sidebar 内部
+      // 使用 HTML 结构，不加蝴蝶结，干净利落
       name: `
         <div class="sidebar-logo-container">
           <img src="Picture/avatar.jpg" class="sidebar-logo">
@@ -185,14 +155,9 @@
       
       repo: '', 
       
-      // 浏览器标签栏标题逻辑：
-      // Docsify 默认会把这里设置的 name 拼在前面，但我们已经在 html head 里设置了 Title
-      // 如果要让它显示 "Mizuki Bot - 首页"，需要配合 _sidebar.md 里的名字
-      
       loadSidebar: true,
       subMaxLevel: 3,
       auto2top: true,
-      
       search: { placeholder: '🔍 搜指令...', noData: '找不到哦~', depth: 6 },
       
       pagination: {
@@ -208,7 +173,7 @@
         light: { accent: '#E97EB3', toogleBackground : '#091a28', background: '#ffffff', textColor: '#34495e', codeBackgroundColor: '#f8f8f8' }
       },
 
-      // 手机端点击跳转修复
+      // 手机端点击侧边栏自动收起
       plugins: [
         function(hook, vm) {
           hook.doneEach(function() {
@@ -227,7 +192,7 @@
     }
   </script>
 
-  <!-- 插件引入 -->
+  <!-- 插件 -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/index.min.js"></script>
