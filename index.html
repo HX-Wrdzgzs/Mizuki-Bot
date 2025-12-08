@@ -11,80 +11,91 @@
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/style.min.css" title="docsify-darklight-theme" type="text/css" />
 
   <style>
-    /* --- 🎨 样式修正区 --- */
+    /* --- 🎨 核心样式定制 --- */
     :root {
       --docsify_darklight_theme_color: #E97EB3;
     }
 
-    /* 1. 把侧边栏开关（三道杠）挪到左上角 */
-    .sidebar-toggle {
-      top: 15px !important;      /* 距顶部距离 */
-      bottom: auto !important;   /* 取消底部定位 */
-      left: 15px !important;     /* 距左侧距离 */
-      padding: 10px !important;  /* 增加点击区域 */
-      background: transparent !important;
-      border-radius: 5px;
-    }
-
-    /* 2. Loading 遮罩层 (独立于 Docsify 之外) */
-    #loading-mask {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background-color: #fff; /* 背景色，夜间模式可改 */
-      z-index: 999999;        /* 确保在最顶层 */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      transition: opacity 0.5s ease; /* 消失时的淡出动画 */
-    }
-
-    /* 2.1 内容样式 */
-    #loading-avatar {
-      width: 110px; height: 110px;
-      border-radius: 50%;
-      box-shadow: 0 0 25px rgba(233, 126, 179, 0.5);
-      margin-bottom: 25px;
-      animation: breathe 2s infinite ease-in-out; /* 呼吸动画 */
-    }
-    #loading-text { 
-      color: #E97EB3; 
-      font-size: 1.3rem; 
-      font-weight: bold; 
+    /* 1. 侧边栏 Logo 和 大标题样式 (让它不再空荡荡) */
+    .sidebar-logo-container {
+      text-align: center;
+      margin-top: 20px;
       margin-bottom: 10px;
-      padding: 0 20px;
-      text-align: center;
     }
-    #loading-sub { 
-      color: #888; 
-      font-size: 0.95rem; 
-      font-style: italic;
-      padding: 0 20px;
-      text-align: center;
+    .sidebar-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 3px solid #E97EB3;
+      box-shadow: 0 0 10px rgba(233, 126, 179, 0.4);
+      transition: transform 0.5s;
     }
+    .sidebar-logo:hover { transform: rotate(15deg); }
+    
+    .sidebar-title-text {
+      display: block;
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #E97EB3;
+      margin-top: 10px;
+      font-family: 'Comic Sans MS', '微软雅黑', sans-serif;
+    }
+
+    /* 2. 把【三道杠】按钮钉死在左上角 */
+    .sidebar-toggle {
+      position: fixed !important;
+      top: 10px !important;
+      left: 10px !important;
+      bottom: auto !important;
+      background: rgba(255,255,255,0.8) !important; /* 加点背景防看不清 */
+      border-radius: 8px;
+      padding: 8px !important;
+      z-index: 99999;
+    }
+    /* 夜间模式适配三道杠背景 */
+    body.dark .sidebar-toggle {
+      background: rgba(0,0,0,0.5) !important;
+    }
+
+    /* 3. Loading 遮罩层 (独立全屏) */
+    #loading-mask {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background-color: #fff;
+      z-index: 999999;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      transition: opacity 0.5s ease;
+    }
+    body.dark #loading-mask { background-color: #121212; } /* 夜间模式Loading背景 */
+
+    #loading-avatar {
+      width: 120px; height: 120px; border-radius: 50%;
+      box-shadow: 0 0 30px rgba(233, 126, 179, 0.6);
+      margin-bottom: 30px;
+      animation: breathe 2s infinite ease-in-out;
+    }
+    #loading-text { font-size: 1.4rem; font-weight: bold; color: #E97EB3; margin-bottom: 15px; text-align: center; padding: 0 20px;}
+    #loading-sub { font-size: 1rem; color: #888; font-style: italic; text-align: center; padding: 0 20px;}
 
     @keyframes breathe {
       0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+      50% { transform: scale(1.08); }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- ✨ 独立的 Loading 遮罩层 (不在 #app 里，防止被瞬间替换) ✨ -->
+  <!-- ✨ 全屏 Loading 遮罩 ✨ -->
   <div id="loading-mask">
     <img id="loading-avatar" src="Picture/avatar.jpg" alt="Mizuki">
     <div id="loading-text">Loading...</div>
-    <div id="loading-sub">Wait a sec...</div>
+    <div id="loading-sub">Wait a moment...</div>
   </div>
 
-  <!-- Docsify 挂载点 -->
   <div id="app"></div>
 
   <script>
-    // --- 🎀 瑞希语录逻辑 ---
-    // (逻辑没变，只是现在写入到 #loading-mask 里了)
+    // --- 🎀 瑞希语录 (逻辑不变) ---
     const quotes = [
       { jp: "「 ボクは……ボクでいたいだけ 」", cn: "我只是……想做我自己罢了" },
       { jp: "「 秘密って、なんだかワクワクしない？ 」", cn: "所谓秘密，不觉得令人有些兴奋吗？" },
@@ -103,45 +114,44 @@
       { jp: "「 ボクのこと、知りたい？ 」", cn: "想知道，关于我的事吗？" }
     ];
 
-    // 随机抽取
     const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
     const lt = document.getElementById('loading-text');
     const ls = document.getElementById('loading-sub');
     if (lt) lt.innerHTML = randomQuote.jp;
     if (ls) ls.innerHTML = randomQuote.cn;
 
-    // --- ⏳ 强制延迟 Loading 消失逻辑 ---
+    // --- ⏳ Loading 强制显示 3.5秒 ---
     window.addEventListener('load', function() {
-      // 这里设置延迟时间，单位毫秒。3000 = 3秒
       setTimeout(function() {
         const mask = document.getElementById('loading-mask');
         if (mask) {
-          mask.style.opacity = '0'; // 淡出
-          // 淡出动画结束后彻底移除，让用户可以点击页面
+          mask.style.opacity = '0';
           setTimeout(() => mask.remove(), 500); 
         }
-      }, 3000); // <--- 想改时间改这里
+      }, 3500); // 3500毫秒 = 3.5秒
     });
-    // ------------------------------------
 
     window.$docsify = {
-      // 1. 标题设置
-      name: '<span style="font-weight:bold; color:#E97EB3;">🎀 Mizuki Bot 帮助文档</span>',
+      // 👇👇👇【这里就是大标题头】👇👇👇
+      // 我用 HTML 直接把【头像】和【名字】塞进去了
+      name: `
+        <div class="sidebar-logo-container">
+          <img src="Picture/avatar.jpg" class="sidebar-logo">
+          <span class="sidebar-title-text">🎀 Mizuki Bot</span>
+        </div>
+      `,
       
-      // 2. 删除了 repo，右上角不会有 GitHub 图标了
-      repo: '', 
+      repo: '', // 右上角已清空
       
       loadSidebar: true,
       subMaxLevel: 3,
       auto2top: true,
-      
       search: { placeholder: '🔍 搜指令...', noData: '找不到哦~', depth: 6 },
       
       pagination: {
         previousText: '← 上一章',
         nextText: '下一章 →',
         crossChapter: true,
-        crossChapterText: true,
       },
 
       darklightTheme: {
@@ -151,7 +161,7 @@
         light: { accent: '#E97EB3', toogleBackground : '#091a28', background: '#ffffff', textColor: '#34495e', codeBackgroundColor: '#f8f8f8' }
       },
 
-      // 3. 手机端点击修复插件
+      // 手机端点击侧边栏自动收起插件
       plugins: [
         function(hook, vm) {
           hook.doneEach(function() {
@@ -159,7 +169,6 @@
             links.forEach(function(link) {
               link.addEventListener('click', function(e) {
                 if (document.body.clientWidth <= 768) {
-                  // 关闭侧边栏
                   document.body.classList.remove('close');
                   document.body.classList.add('close');
                 }
