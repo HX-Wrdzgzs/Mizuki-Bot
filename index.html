@@ -17,80 +17,77 @@
     }
 
     /* =========================================================
-       1. 解决侧边栏“打架”问题
-       给侧边栏顶部增加 padding，把内容往下推，
-       给左上角的“三道杠”腾出位置。
+       1. 【核心修复】把菜单按钮移到【右下角】
+       做成一个粉色的悬浮球，彻底解决左上角打架的问题
        ========================================================= */
-    .sidebar {
-      padding-top: 60px !important; /* 👇 关键：留出顶部空间 */
-      z-index: 10000 !important;
-    }
-
-    /* 固定三道杠在左上角 */
     .sidebar-toggle {
       position: fixed !important;
-      top: 10px !important;
-      left: 10px !important;
-      background: rgba(255, 255, 255, 0.8) !important; /* 加个半透明底色防止看不清 */
-      border-radius: 5px;
-      padding: 8px !important;
-      z-index: 20000 !important;
-    }
-    body.dark .sidebar-toggle {
-      background: rgba(0, 0, 0, 0.6) !important;
-    }
-
-    /* =========================================================
-       2. 解决搜索结果“爆源码” (抽象) 问题
-       强制隐藏搜索结果中的【正文内容】，【只显示标题】。
-       这样不管你 Markdown 里写了多少 HTML，都不会被搜出来显示。
-       ========================================================= */
-    .matching-post p, 
-    .matching-post code, 
-    .matching-post span {
-      display: none !important; /* 👇 暴力隐藏所有正文摘要 */
+      bottom: 30px !important;    /* 距底部 30px */
+      right: 30px !important;     /* 距右侧 30px */
+      top: auto !important;       /* 取消顶部定位 */
+      left: auto !important;      /* 取消左侧定位 */
+      
+      width: 50px !important;
+      height: 50px !important;
+      background: #E97EB3 !important; /* 粉色背景 */
+      border-radius: 50% !important;  /* 圆形 */
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
+      
+      /* 让里面的三道杠居中变白 */
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      z-index: 99999 !important;
     }
     
-    /* 调整搜索结果标题的样式，让它看起来更整洁 */
-    .matching-post h2, 
-    .matching-post h3 {
-      font-size: 1rem !important;
-      margin-bottom: 5px !important;
-      color: #E97EB3 !important; /* 标题用粉色 */
+    /* 强行把三道杠变成白色 */
+    .sidebar-toggle span {
+      background-color: #fff !important;
     }
-    .matching-post {
-      border-bottom: 1px solid rgba(0,0,0,0.05); /* 淡淡的分隔线 */
-      padding: 10px 0;
-    }
-
 
     /* =========================================================
-       3. 侧边栏 Logo 样式 (Mizuki Bot 头像)
+       2. 侧边栏布局优化
        ========================================================= */
+    .sidebar {
+      padding-top: 20px !important; /* 给顶部留点空隙 */
+      z-index: 10000 !important;
+      background-color: #ffffff; /* 确保背景不透明 */
+    }
+    body.dark .sidebar { background-color: #121212; }
+
+    /* 搜索框美化：给它一点下边距，别顶着头像 */
+    .sidebar .search {
+      margin-bottom: 20px !important;
+    }
+
+    /* Logo 区域样式 */
     .sidebar-logo-container {
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
     .sidebar-logo {
-      width: 90px;
-      height: 90px;
+      width: 80px; height: 80px;
       border-radius: 50%;
       border: 3px solid #E97EB3;
       box-shadow: 0 4px 15px rgba(233, 126, 179, 0.3);
-      transition: transform 0.3s;
     }
-    .sidebar-logo:hover { transform: rotate(10deg); }
-    
     .sidebar-title-text {
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       font-weight: bold;
       color: #E97EB3;
       margin-top: 10px;
     }
 
-    /* 4. Loading 遮罩层 (纯净版，无 Loading 文字) */
+    /* =========================================================
+       3. 搜索结果修复 (防止爆源码)
+       ========================================================= */
+    .matching-post p, .matching-post code, .matching-post span { display: none !important; }
+    .matching-post h2, .matching-post h3 { font-size: 1rem !important; color: #E97EB3 !important; }
+    .matching-post { border-bottom: 1px solid rgba(0,0,0,0.05); padding: 10px 0; }
+
+    /* 4. Loading 遮罩 (纯净版) */
     #loading-mask {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background-color: #fff;
@@ -124,7 +121,7 @@
   <div id="app"></div>
 
   <script>
-    // --- 🎀 瑞希语录 ---
+    // --- 瑞希语录 ---
     const quotes = [
       { jp: "「 ボクは……ボクでいたいだけ 」", cn: "我只是……想做我自己罢了" },
       { jp: "「 秘密って、なんだかワクワクしない？ 」", cn: "所谓秘密，不觉得令人有些兴奋吗？" },
@@ -149,7 +146,7 @@
     if (elJp) elJp.innerHTML = randomQuote.jp;
     if (elCn) elCn.innerHTML = randomQuote.cn;
 
-    // --- ⏳ Loading 强制 2秒 ---
+    // --- Loading 强制 2秒 ---
     window.addEventListener('load', function() {
       setTimeout(function() {
         const mask = document.getElementById('loading-mask');
@@ -174,17 +171,12 @@
       subMaxLevel: 3,
       auto2top: true,
       
-      // ✨✨✨ 搜索配置 ✨✨✨
       search: {
         paths: 'auto',
         placeholder: '🔍 搜指令...',
         noData: '找不到哦~',
-        
-        // 关键：只搜标题，深度为 3
         depth: 3, 
-        
-        // 强制刷新缓存
-        namespace: 'mizuki-bot-final-fix', 
+        namespace: 'mizuki-bot-final-v2', // 再次刷新缓存
       },
       
       pagination: {
