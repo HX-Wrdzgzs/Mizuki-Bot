@@ -7,107 +7,64 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no">
   
-  <!-- 1. 换回官方 Vue 主题 (纯白，无夜间模式) -->
+  <!-- 引入官方 Vue 主题 (纯白) -->
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
 
   <style>
     /* --- 🎀 全局 UI 圆角化与粉色定制 --- */
-    :root {
-      --theme-color: #E97EB3;
-    }
+    :root { --theme-color: #E97EB3; }
     
     body {
-      background-color: #f5f7fa; /* 淡淡的灰背景，让白色卡片更明显 */
+      background-color: #f5f7fa;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
-    /* 核心：内容区域卡片化 + 圆角 */
+    /* 内容区域卡片化 */
     .markdown-section {
       background-color: #fff;
       margin: 20px auto;
       padding: 30px 40px !important;
-      border-radius: 20px; /* 大圆角 */
-      box-shadow: 0 4px 20px rgba(0,0,0,0.03); /* 很浅的阴影 */
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
       max-width: 900px;
     }
 
-    /* 链接颜色 */
-    .markdown-section a {
-      color: #E97EB3;
-      font-weight: bold;
-      text-decoration: none;
-    }
-
-    /* 图片圆角 */
-    .markdown-section img {
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    }
+    .markdown-section a { color: #E97EB3; font-weight: bold; text-decoration: none; }
+    .markdown-section img { border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+    .markdown-section pre { border-radius: 12px; background-color: #f8f8f8 !important; }
     
-    /* 代码块圆角 */
-    .markdown-section pre {
-      border-radius: 12px;
-      background-color: #f8f8f8 !important;
-    }
-
-    /* 引用块 (Blockquote) 圆角 */
-    .markdown-section blockquote {
-      border-radius: 8px;
-      background: #fff5f9; /* 浅粉色背景 */
-      border-left: 4px solid #E97EB3;
-      color: #666;
-    }
-
     /* 侧边栏样式 */
-    .sidebar {
-      background-color: #fff;
-      border-right: none;
-      box-shadow: 4px 0 20px rgba(0,0,0,0.02);
-    }
+    .sidebar { background-color: #fff; border-right: none; box-shadow: 4px 0 20px rgba(0,0,0,0.02); }
     .sidebar-nav li.active > a {
-      border-right: 2px solid #E97EB3;
-      color: #E97EB3;
-      background-color: #fff0f6; /* 选中时的浅粉背景 */
-      border-radius: 8px 0 0 8px; /* 左侧圆角 */
+      border-right: 2px solid #E97EB3; color: #E97EB3;
+      background-color: #fff0f6; border-radius: 8px 0 0 8px;
     }
 
-    /* =========================================================
-       悬浮球按钮 (右下角)
-       ========================================================= */
+    /* 右下角悬浮球按钮 */
     .sidebar-toggle {
-      position: fixed !important;
-      bottom: 30px !important;
-      right: 30px !important;
+      position: fixed !important; bottom: 30px !important; right: 30px !important;
       top: auto !important; left: auto !important;
       width: 50px !important; height: 50px !important;
-      background: #E97EB3 !important;
-      border-radius: 50% !important;
+      background: #E97EB3 !important; border-radius: 50% !important;
       box-shadow: 0 4px 15px rgba(233, 126, 179, 0.4) !important;
       display: flex !important; align-items: center !important; justify-content: center !important;
       z-index: 99999 !important;
     }
-    /* 强制里面的横杠变白 */
     .sidebar-toggle span { background-color: #fff !important; }
 
-    /* =========================================================
-       侧边栏 Logo
-       ========================================================= */
+    /* 侧边栏 Logo */
     .sidebar-logo-container {
-      display: flex; flex-direction: column; align-items: center;
-      padding: 30px 0 10px 0;
+      display: flex; flex-direction: column; align-items: center; padding: 30px 0 10px 0;
     }
     .sidebar-logo {
       width: 80px; height: 80px; border-radius: 50%;
-      border: 3px solid #E97EB3;
-      box-shadow: 0 4px 15px rgba(233, 126, 179, 0.3);
+      border: 3px solid #E97EB3; box-shadow: 0 4px 15px rgba(233, 126, 179, 0.3);
     }
     .sidebar-title-text {
       font-size: 1.2rem; fontWeight: bold; color: #E97EB3; margin-top: 10px;
     }
 
-    /* =========================================================
-       Loading 遮罩 (保留你的语录功能)
-       ========================================================= */
+    /* Loading 遮罩 */
     #loading-mask {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background-color: #fff; z-index: 999999;
@@ -122,17 +79,10 @@
     #loading-quote-jp { font-size: 1.1rem; font-weight: bold; color: #E97EB3; margin-bottom: 10px; text-align: center; padding: 0 20px;}
     #loading-quote-cn { font-size: 0.95rem; color: #888; font-style: italic; text-align: center; padding: 0 20px;}
     @keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
-    
-    /* 隐藏丑陋的默认搜索正文 */
-    .matching-post p, .matching-post code { display: none !important; }
-    .matching-post h2 { color: #E97EB3 !important; }
-
   </style>
 </head>
 
 <body>
-
-  <!-- Loading -->
   <div id="loading-mask">
     <img id="loading-avatar" src="Picture/avatar.jpg" alt="Mizuki">
     <div id="loading-quote-jp"></div>
@@ -142,7 +92,7 @@
   <div id="app"></div>
 
   <script>
-    // --- 语录逻辑 ---
+    // 语录
     const quotes = [
       { jp: "「 ボクは……ボクでいたいだけ 」", cn: "我只是……想做我自己罢了" },
       { jp: "「 秘密って、なんだかワクワクしない？ 」", cn: "所谓秘密，不觉得令人有些兴奋吗？" },
@@ -156,7 +106,6 @@
     if (elJp) elJp.innerHTML = randomQuote.jp;
     if (elCn) elCn.innerHTML = randomQuote.cn;
 
-    // Loading 2秒消失
     window.addEventListener('load', function() {
       setTimeout(function() {
         const mask = document.getElementById('loading-mask');
@@ -165,7 +114,6 @@
     });
 
     window.$docsify = {
-      // 侧边栏 Logo
       name: `
         <div class="sidebar-logo-container">
           <img src="Picture/avatar.jpg" class="sidebar-logo">
@@ -173,29 +121,19 @@
         </div>
       `,
       repo: '', 
-      
       loadSidebar: true,
       subMaxLevel: 3,
       auto2top: true,
-      
-      // 主题色
       themeColor: '#E97EB3',
       
-      search: {
-        paths: 'auto',
-        placeholder: '🔍 搜指令...',
-        noData: '找不到哦~',
-        depth: 3, 
-        namespace: 'mizuki-ui-final', 
-      },
-      
+      // 注意：这里已经彻底删除了 search 配置
+
       pagination: {
         previousText: '← 上一章',
         nextText: '下一章 →',
         crossChapter: true,
       },
 
-      // 手机端侧边栏收起逻辑
       plugins: [
         function(hook, vm) {
           hook.doneEach(function() {
@@ -214,11 +152,10 @@
     }
   </script>
 
-  <!-- 插件 (移除了 darklight-theme) -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js"></script>
+  <!-- 注意：这里已经删除了 search.min.js 引用 -->
 </body>
 </html>
