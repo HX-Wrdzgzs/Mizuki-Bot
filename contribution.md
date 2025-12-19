@@ -5,12 +5,12 @@ Mizuki Bot 的诞生与成长离不开以下成员的辛勤付出。
 <br>
 
 <!-- =================================================
-     人员卡片区域 (双列布局 + 点击展开介绍)
+     人员卡片区域 (强制双列布局)
      ================================================= -->
-<div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+<div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;">
 
-  <!-- 1. HX-Wrdzgzs (头像路径已改为名字) -->
-  <div style="background: #fff; border-radius: 12px; padding: 15px 5px; width: 46%; min-width: 130px; max-width: 200px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); flex-grow: 1;">
+  <!-- 1. HX-Wrdzgzs -->
+  <div style="background: #fff; border-radius: 10px; padding: 15px 5px; width: 46%; min-width: 130px; max-width: 200px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); flex-grow: 1;">
     <img src="Picture/HX-Wrdzgzs.jpg" style="width: 60px; height: 60px; border-radius: 50%; border: 2px solid #E97EB3;">
     <h4 style="margin: 8px 0 4px; font-size: 0.95rem;">HX-Wrdzgzs</h4>
     <span style="font-size: 11px; color: #E97EB3; font-weight: bold; display:block; margin-bottom:5px;">核心开发者</span>
@@ -23,8 +23,8 @@ Mizuki Bot 的诞生与成长离不开以下成员的辛勤付出。
     </details>
   </div>
 
-  <!-- 2. Te:River -->
-  <div style="background: #fff; border-radius: 12px; padding: 15px 5px; width: 46%; min-width: 130px; max-width: 200px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); flex-grow: 1;">
+  <!-- 2. Te:River (已更新贡献) -->
+  <div style="background: #fff; border-radius: 10px; padding: 15px 5px; width: 46%; min-width: 130px; max-width: 200px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); flex-grow: 1;">
     <img src="Picture/TeRiver.jpg" style="width: 60px; height: 60px; border-radius: 50%; border: 2px solid #66ccff;">
     <h4 style="margin: 8px 0 4px; font-size: 0.95rem;">Te:River</h4>
     <span style="font-size: 11px; color: #66ccff; font-weight: bold; display:block; margin-bottom:5px;">技术支持</span>
@@ -32,13 +32,14 @@ Mizuki Bot 的诞生与成长离不开以下成员的辛勤付出。
     <details style="font-size: 11px; color: #666; cursor: pointer;">
       <summary style="outline: none; color: #999;">点击查看介绍</summary>
       <p style="margin: 5px 0 0; line-height: 1.4; padding: 5px; background: #fafafa; border-radius: 5px;">
-        构建了网站架构，提供稳定的后端数据支持，保障服务全天候在线。
+        负责网站设计与数据支持；<br>
+        <strong>维护机器人正常运行</strong>，保障服务全天候在线。
       </p>
     </details>
   </div>
 
   <!-- 3. Sirius -->
-  <div style="background: #fff; border-radius: 12px; padding: 15px 5px; width: 46%; min-width: 130px; max-width: 200px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); flex-grow: 1;">
+  <div style="background: #fff; border-radius: 10px; padding: 15px 5px; width: 46%; min-width: 130px; max-width: 200px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); flex-grow: 1;">
     <img src="Picture/Sirius.jpg" style="width: 60px; height: 60px; border-radius: 50%; border: 2px solid #ccc;">
     <h4 style="margin: 8px 0 4px; font-size: 0.95rem;">Sirius</h4>
     <span style="font-size: 11px; color: #999; font-weight: bold; display:block; margin-bottom:5px;">硬件支持</span>
@@ -52,7 +53,7 @@ Mizuki Bot 的诞生与成长离不开以下成员的辛勤付出。
   </div>
 
   <!-- 4. ecomter -->
-  <div style="background: #fff; border-radius: 12px; padding: 15px 5px; width: 46%; min-width: 130px; max-width: 200px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); flex-grow: 1;">
+  <div style="background: #fff; border-radius: 10px; padding: 15px 5px; width: 46%; min-width: 130px; max-width: 200px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); flex-grow: 1;">
     <img src="Picture/ecomter.jpg" style="width: 60px; height: 60px; border-radius: 50%; border: 2px solid #ccc;">
     <h4 style="margin: 8px 0 4px; font-size: 0.95rem;">ecomter</h4>
     <span style="font-size: 11px; color: #999; font-weight: bold; display:block; margin-bottom:5px;">硬件支持</span>
@@ -60,13 +61,13 @@ Mizuki Bot 的诞生与成长离不开以下成员的辛勤付出。
     <details style="font-size: 11px; color: #666; cursor: pointer;">
       <summary style="outline: none; color: #999;">点击查看介绍</summary>
       <p style="margin: 5px 0 0; line-height: 1.4; padding: 5px; background: #fafafa; border-radius: 5px;">
-        协助维护底层设施，曾为项目运行提供必要的资源支持。
+        协助维护底层设施，为项目运行提供必要的资源支持。
       </p>
     </details>
   </div>
 
-  <!-- 5. uni_mayu -->
-  <div style="background: #fff; border-radius: 12px; padding: 15px 5px; width: 46%; min-width: 130px; max-width: 200px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); flex-grow: 1;">
+  <!-- 5. uni_mayu (已更新贡献) -->
+  <div style="background: #fff; border-radius: 10px; padding: 15px 5px; width: 46%; min-width: 130px; max-width: 200px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); flex-grow: 1;">
     <img src="Picture/uni_mayu.jpg" style="width: 60px; height: 60px; border-radius: 50%; border: 2px solid #E97EB3;">
     <h4 style="margin: 8px 0 4px; font-size: 0.95rem;">uni_mayu</h4>
     <span style="font-size: 11px; color: #E97EB3; font-weight: bold; display:block; margin-bottom:5px;">特邀画师</span>
@@ -74,13 +75,14 @@ Mizuki Bot 的诞生与成长离不开以下成员的辛勤付出。
     <details style="font-size: 11px; color: #666; cursor: pointer;">
       <summary style="outline: none; color: #999;">点击查看介绍</summary>
       <p style="margin: 5px 0 0; line-height: 1.4; padding: 5px; background: #fafafa; border-radius: 5px;">
-        Mizuki Bot 专属 Logo 设计者，绘制了现役精美头像。
+        Logo 设计 / 头像绘制；<br>
+        <strong>协助机器人功能测试</strong>。
       </p>
     </details>
   </div>
 
   <!-- 6. 公良寻竹 -->
-  <div style="background: #fff; border-radius: 12px; padding: 15px 5px; width: 46%; min-width: 130px; max-width: 200px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.05); flex-grow: 1;">
+  <div style="background: #fff; border-radius: 10px; padding: 15px 5px; width: 46%; min-width: 130px; max-width: 200px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); flex-grow: 1;">
     <img src="Picture/Gongliang.jpg" style="width: 60px; height: 60px; border-radius: 50%; border: 2px solid #ccc;">
     <h4 style="margin: 8px 0 4px; font-size: 0.95rem;">公良寻竹</h4>
     <span style="font-size: 11px; color: #999; font-weight: bold; display:block; margin-bottom:5px;">美术设计</span>
@@ -98,14 +100,15 @@ Mizuki Bot 的诞生与成长离不开以下成员的辛勤付出。
 <br>
 
 <!-- =================================================
-     ❤️ 技术栈与致谢 (已更新 HongXingOS6 描述)
+     ❤️ 技术栈与致谢
      ================================================= -->
 <h3 style="color: #E97EB3; border-left: 4px solid #E97EB3; padding-left: 10px;">❤️ 技术栈与致谢</h3>
 
-*   **Bot Framework**: Koishi / Nonebot / Haruki Bot
+*   **Framework**: Koishi / Nonebot / Haruki Bot
 *   **Website Design**: Te:River / HX-Wrdzgzs
 *   **Design**: uni_mayu (Logo) / HX-Wrdzgzs (UI)
-*   **Data Source**: Te:River
+*   **Maintenance**: Te:River (Ops)
+*   **QA Testing**: uni_mayu
 
 <!-- HongXingOS6 致谢 -->
 <p style="margin-top: 15px; font-size: 0.9rem; color: #555; background: #f0f0f0; padding: 10px; border-radius: 8px; border-left: 3px solid #666;">
