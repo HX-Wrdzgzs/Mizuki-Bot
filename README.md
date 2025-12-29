@@ -1,17 +1,18 @@
-<!-- 这是一个纯 HTML 的主页结构，Docsify 会完美渲染它 -->
-<div style="text-align: center; margin-top: 20px;">
+<!-- 这是一个纯 HTML 的主页结构 -->
+<div style="text-align: center; margin-top: 30px;">
   
-  <!-- 头像 -->
-  <img src="Picture/avatar.jpg" width="110" height="110" style="border-radius: 50%; box-shadow: 0 0 20px rgba(233, 126, 179, 0.4); border: 3px solid #E97EB3; margin-bottom: 20px;">
+  <!-- 头像：放大到 160px -->
+  <img src="Picture/avatar.jpg" width="160" height="160" style="border-radius: 50%; box-shadow: 0 4px 20px rgba(233, 126, 179, 0.4); border: 4px solid #E97EB3; margin-bottom: 25px;">
 
   <!-- 渐变标题 -->
-  <h1 style="background: linear-gradient(135deg, #E97EB3 0%, #8A66C2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0 0 10px 0; font-size: 2.2rem;">
+  <h1 style="background: linear-gradient(135deg, #E97EB3 0%, #8A66C2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0 0 15px 0; font-size: 2.4rem;">
     Mizuki Bot 帮助文档
   </h1>
 
-  <!-- 经典台词 -->
-  <p style="color: #888; font-style: italic; margin-bottom: 15px; font-weight: bold;">
-    「 ボクは……ボクでいたいだけ 」
+  <!-- ✨✨✨ 随机语录显示区 ✨✨✨ -->
+  <!-- JS 会自动把内容填到这里，颜色为浅灰色 -->
+  <p id="mizuki-quote" style="color: #999; font-style: italic; margin-bottom: 25px; font-weight: bold; min-height: 50px; line-height: 1.6;">
+    Loading...
   </p>
 
   <!-- 徽章 -->
@@ -33,7 +34,7 @@
 <br>
 <br>
 
-<!-- ================= 功能卡片区域 (Flex布局) ================= -->
+<!-- ================= 功能卡片区域 ================= -->
 <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
 
   <!-- 卡片 1: PJSK -->
