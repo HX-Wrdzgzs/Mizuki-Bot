@@ -10,7 +10,7 @@
   <code style="color: #E97EB3; font-weight: bold; font-size: 1.2em; background: #fff; padding: 5px 10px; border-radius: 5px;">pjsk [ID] [文本]</code>
   <p style="font-size: 13px; color: #888; margin-top: 10px;">
     例: <code>pjsk 40 哇古哇古</code> (Emu)<br>
-    例: <code>pjsk 166 哼哼</code> (Luka)
+    例: <code>pjsk 280 呵呵</code> (Rui)
   </p>
 </div>
 
@@ -23,7 +23,7 @@
   <p style="font-size: 12px; color: #999;">▲ 点击下方名字展开查看具体 ID</p>
 </div>
 
-<!-- ================= 1-12 (前一批) ================= -->
+<!-- ================= 1-10 ================= -->
 
 <details style="background:#fff; margin-bottom:8px; border-radius:8px;"><summary style="cursor:pointer; padding:12px; font-weight:bold; color:#ff748c;">🍑 1. Airi (爱莉)</summary><div style="padding:10px;"><img src="Picture/1.jpg" style="width:100%; border-radius:8px;"></div></details>
 
@@ -45,11 +45,11 @@
 
 <details style="background:#fff; margin-bottom:8px; border-radius:8px;"><summary style="cursor:pointer; padding:12px; font-weight:bold; color:#bbbbbb;">🎼 10. Kanade (奏)</summary><div style="padding:10px;"><img src="Picture/10.jpg" style="width:100%; border-radius:8px;"></div></details>
 
+<!-- ================= 11-20 ================= -->
+
 <details style="background:#fff; margin-bottom:8px; border-radius:8px;"><summary style="cursor:pointer; padding:12px; font-weight:bold; color:#ff6699;">🐹 11. Kohane (心羽)</summary><div style="padding:10px;"><img src="Picture/11.jpg" style="width:100%; border-radius:8px;"></div></details>
 
 <details style="background:#fff; margin-bottom:8px; border-radius:8px;"><summary style="cursor:pointer; padding:12px; font-weight:bold; color:#ffd700;">🍌 12. Len (连)</summary><div style="padding:10px;"><img src="Picture/12.jpg" style="width:100%; border-radius:8px;"></div></details>
-
-<!-- ================= 13-24 (新一批) ================= -->
 
 <details style="background:#fff; margin-bottom:8px; border-radius:8px;"><summary style="cursor:pointer; padding:12px; font-weight:bold; color:#ff99cc;">🐙 13. Luka (巡音)</summary><div style="padding:10px;"><img src="Picture/13.jpg" style="width:100%; border-radius:8px;"></div></details>
 
@@ -61,12 +61,14 @@
 
 <details style="background:#fff; margin-bottom:8px; border-radius:8px;"><summary style="cursor:pointer; padding:12px; font-weight:bold; color:#ffcc99;">☘️ 17. Minori (实乃理)</summary><div style="padding:10px;"><img src="Picture/17.jpg" style="width:100%; border-radius:8px;"></div></details>
 
-<details style="background:#fff; margin-bottom:8px; border-radius:8px;"><summary style="cursor:pointer; padding:12px; font-weight:bold; color:#99ee99;">🤖 18. Nene (宁宁)</summary><div style="padding:10px;"><img src="Picture/18.jpg" style="width:100%; border-radius:8px;"></div></details>
+<details style="background:#fff; margin-bottom:8px; border-radius:8px;"><summary style="cursor:pointer; padding:12px; font-weight:bold; color:#e4a8ca;">🎀 18. Mizuki (瑞希)</summary><div style="padding:10px;"><img src="Picture/18.jpg" style="width:100%; border-radius:8px;"></div></details>
 
-<details style="background:#fff; margin-bottom:8px; border-radius:8px;"><summary style="cursor:pointer; padding:12px; font-weight:bold; color:#ffcc00;">🍊 19. Rin (铃)</summary><div style="padding:10px;"><img src="Picture/19.jpg" style="width:100%; border-radius:8px;"></div></details>
+<details style="background:#fff; margin-bottom:8px; border-radius:8px;"><summary style="cursor:pointer; padding:12px; font-weight:bold; color:#99ee99;">🤖 19. Nene (宁宁)</summary><div style="padding:10px;"><img src="Picture/19.jpg" style="width:100%; border-radius:8px;"></div></details>
 
-<details style="background:#fff; margin-bottom:8px; border-radius:8px;"><summary style="cursor:pointer; padding:12px; font-weight:bold; color:#bb88ee;">🎈 20. Rui (类)</summary><div style="padding:10px;"><img src="Picture/20.jpg" style="width:100%; border-radius:8px;"></div></details>
+<details style="background:#fff; margin-bottom:8px; border-radius:8px;"><summary style="cursor:pointer; padding:12px; font-weight:bold; color:#ffcc00;">🍊 20. Rin (铃)</summary><div style="padding:10px;"><img src="Picture/20.jpg" style="width:100%; border-radius:8px;"></div></details>
 
-<details style="background:#fff; margin-bottom:8px; border-radius:8px;"><summary style="cursor:pointer; padding:12px; font-weight:bold; color:#b3d234;">🎹 21. Shiho (志步)</summary><div style="padding:10px;"><img src="Picture/21.jpg" style="width:100%; border-radius:8px;"></div></details>
+<!-- ================= 21-26 ================= -->
 
-<details style="background:#fff; margin-bottom:8px; border-radi
+<details style="background:#fff; margin-bottom:8px; border-radius:8px;"><summary style="cursor:pointer; padding:12px; font-weight:bold; color:#bb88ee;">🎈 21. Rui (类)</summary><div style="padding:10px;"><img src="Picture/21.jpg" style="width:100%; border-radius:8px;"></div></details>
+
+<details style="backgro
