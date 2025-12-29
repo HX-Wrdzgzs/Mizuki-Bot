@@ -7,42 +7,35 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no">
   
-  <!-- 1. 官方 Vue 主题 (纯白底) -->
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
 
   <style>
-    /* --- 🎀 全局样式定制 --- */
+    /* --- 🎀 全局样式 --- */
     :root { --theme-color: #E97EB3; }
     
     body {
-      background-color: #f5f7fa !important; /* 浅灰背景，突出卡片 */
+      background-color: #f5f7fa !important;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
-    /* 文档容器卡片化 */
     .markdown-section {
       background-color: #fff;
       margin: 20px auto;
       padding: 30px 40px !important;
-      border-radius: 20px; /* 大圆角 */
+      border-radius: 20px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.03);
       max-width: 900px;
     }
 
-    /* 链接颜色 */
     .markdown-section a { color: #E97EB3; font-weight: bold; text-decoration: none; }
-    
-    /* 图片通用样式 */
     .markdown-section img { border-radius: 12px; }
 
-    /* 侧边栏 */
     .sidebar { background-color: #fff; border-right: none; }
     .sidebar-nav li.active > a {
       border-right: 3px solid #E97EB3; color: #E97EB3;
       background-color: #fff0f6; border-radius: 8px 0 0 8px;
     }
 
-    /* 悬浮球按钮 (右下角) */
     .sidebar-toggle {
       position: fixed !important; bottom: 30px !important; right: 30px !important;
       top: auto !important; left: auto !important;
@@ -61,12 +54,16 @@
     .sidebar-logo {
       width: 80px; height: 80px; 
       border-radius: 50%; 
-      object-fit: cover; /* 强制变圆 */
+      object-fit: cover; 
       border: 3px solid #E97EB3; 
       box-shadow: 0 4px 15px rgba(233, 126, 179, 0.3);
     }
     .sidebar-title-text {
-      font-size: 1.2rem; fontWeight: bold; color: #E97EB3; margin-top: 10px;
+      /* ✨✨✨ 这里加粗了 ✨✨✨ */
+      font-size: 1.2rem; 
+      font-weight: 900; 
+      color: #E97EB3; 
+      margin-top: 10px;
     }
   </style>
 </head>
@@ -75,7 +72,6 @@
   <div id="app"></div>
 
   <script>
-    // --- 🎀 瑞希语录库 ---
     const quotes = [
       "「 ボクは……ボクでいたいだけ 」<br>我只是……想做我自己罢了",
       "「 秘密って、なんだかワクワクしない？ 」<br>所谓秘密，不觉得令人有些兴奋吗？",
@@ -99,8 +95,6 @@
       auto2top: true,
       themeColor: '#E97EB3',
       
-      // 已移除 search 配置，彻底删除搜索栏
-
       pagination: {
         previousText: '← 上一章',
         nextText: '下一章 →',
@@ -109,7 +103,6 @@
 
       plugins: [
         function(hook, vm) {
-          // 1. 手机端侧边栏收起逻辑
           hook.doneEach(function() {
             var links = document.querySelectorAll('.sidebar-nav a');
             links.forEach(function(link) {
@@ -121,7 +114,6 @@
               });
             });
 
-            // 2. 自动填充主页语录
             var quoteBox = document.getElementById('mizuki-quote');
             if (quoteBox) {
               var randomQ = quotes[Math.floor(Math.random() * quotes.length)];
