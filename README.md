@@ -1,38 +1,35 @@
-<div style="text-align: center; margin-top: 30px;">
+<!-- 顶部横排布局 -->
+<div style="display: flex; align-items: center; justify-content: center; gap: 25px; margin-top: 40px; padding: 0 10px;">
   
-  <!-- 头像：放大圆形 -->
-  <img src="Picture/avatar.jpg" width="160" height="160" style="border-radius: 50%; object-fit: cover; box-shadow: 0 4px 20px rgba(233, 126, 179, 0.4); border: 4px solid #E97EB3; margin-bottom: 25px;">
+  <!-- 头像：缩小到 100px -->
+  <img src="Picture/avatar.jpg" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #E97EB3; box-shadow: 0 4px 15px rgba(233, 126, 179, 0.3); flex-shrink: 0;">
 
-  <!-- 标题 -->
-  <h1 style="background: linear-gradient(135deg, #E97EB3 0%, #8A66C2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0 0 15px 0; font-size: 2.4rem;">
-    Mizuki Bot 帮助文档
-  </h1>
-
-  <!-- 语录显示区 -->
-  <p id="mizuki-quote" style="color: #999; font-style: italic; margin-bottom: 25px; font-weight: bold; min-height: 50px; line-height: 1.6;">
-    Loading...
-  </p>
-
-  <!-- 徽章 -->
-  <div>
-    <img src="https://img.shields.io/badge/Version-2.0.0-E97EB3?style=flat-square&logo=github">
-    <img src="https://img.shields.io/badge/Status-Running-8A66C2?style=flat-square">
+  <!-- 文字区域 -->
+  <div style="text-align: left;">
+    <!-- 标题 -->
+    <h1 style="background: linear-gradient(135deg, #E97EB3 0%, #8A66C2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; font-size: 2rem; line-height: 1.2;">
+      Mizuki Bot
+    </h1>
+    <span style="font-size: 1.2rem; color: #555; font-weight: bold;">帮助文档</span>
+    
+    <!-- 随机语录 (JS自动填充) -->
+    <p id="mizuki-quote" style="color: #999; font-size: 13px; font-style: italic; margin-top: 8px; min-height: 20px;">
+      Loading...
+    </p>
   </div>
 
-  <br>
+</div>
 
-  <!-- 介绍 -->
-  <p style="font-size: 15px; line-height: 1.6; max-width: 600px; margin: 0 auto; color: #555;">
-    <b>Mizuki Bot</b> 专注于为 <b>Project Sekai</b> 和 <b>舞萌 DX</b><br>
-    玩家提供最便捷的查询服务。
-  </p>
-
+<!-- 徽章居中 -->
+<div style="text-align: center; margin-top: 20px;">
+  <img src="https://img.shields.io/badge/Version-2.0.0-E97EB3?style=flat-square&logo=github">
+  <img src="https://img.shields.io/badge/Status-Running-8A66C2?style=flat-square">
 </div>
 
 <br>
 <br>
 
-<!-- 功能卡片 -->
+<!-- 功能卡片区域 (保持不变) -->
 <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center;">
 
   <a href="#/pjsk" style="text-decoration: none; width: 46%; min-width: 140px; flex-grow: 1;">
