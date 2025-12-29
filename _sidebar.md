@@ -1,133 +1,19 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <title>Mizuki Bot</title>
-  <link rel="icon" href="Picture/avatar.jpg">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no">
-  
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+* [🏠 首页](README.md)
 
-  <style>
-    /* --- 🎀 全局样式 --- */
-    :root { --theme-color: #E97EB3; }
-    
-    body {
-      background-color: #f5f7fa !important;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    }
+* **功能文档**
+  * [🎵 PJSK 相关功能](pjsk.md)
+  * [🎰 舞萌 DX 专项](maimai.md)
+  * [🎨 PJSK 表情制作](meme.md)
+  * [🛠️ 通用工具与群管](tools.md)
 
-    .markdown-section {
-      background-color: #fff;
-      margin: 20px auto;
-      padding: 30px 40px !important;
-      border-radius: 20px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
-      max-width: 900px;
-    }
+* **其他**
+  * [🚀 如何使用](usage.md)
+  * [🏆 贡献与鸣谢](contribution.md)
 
-    .markdown-section a { color: #E97EB3; font-weight: bold; text-decoration: none; }
-    .markdown-section img { border-radius: 12px; }
-
-    .sidebar { background-color: #fff; border-right: none; }
-    .sidebar-nav li.active > a {
-      border-right: 3px solid #E97EB3; color: #E97EB3;
-      background-color: #fff0f6; border-radius: 8px 0 0 8px;
-    }
-
-    .sidebar-toggle {
-      position: fixed !important; bottom: 30px !important; right: 30px !important;
-      top: auto !important; left: auto !important;
-      width: 50px !important; height: 50px !important;
-      background: #E97EB3 !important; border-radius: 50% !important;
-      box-shadow: 0 4px 15px rgba(233, 126, 179, 0.4) !important;
-      display: flex !important; align-items: center !important; justify-content: center !important;
-      z-index: 99999 !important;
-    }
-    .sidebar-toggle span { background-color: #fff !important; }
-
-    /* 侧边栏 Logo */
-    .sidebar-logo-container {
-      display: flex; flex-direction: column; align-items: center; padding: 30px 0 10px 0;
-    }
-    .sidebar-logo {
-      width: 80px; height: 80px; 
-      border-radius: 50%; 
-      object-fit: cover; 
-      border: 3px solid #E97EB3; 
-      box-shadow: 0 4px 15px rgba(233, 126, 179, 0.3);
-    }
-    .sidebar-title-text {
-      /* ✨✨✨ 这里加粗了 ✨✨✨ */
-      font-size: 1.2rem; 
-      font-weight: 900; 
-      color: #E97EB3; 
-      margin-top: 10px;
-    }
-  </style>
-</head>
-
-<body>
-  <div id="app"></div>
-
-  <script>
-    const quotes = [
-      "「 ボクは……ボクでいたいだけ 」<br>我只是……想做我自己罢了",
-      "「 秘密って、なんだかワクワクしない？ 」<br>所谓秘密，不觉得令人有些兴奋吗？",
-      "「 25時、ナイトコードで。 」<br>25时，在 Nightcord 见。",
-      "「 かわいいは正義！だよね？ 」<br>可爱即正义！对吧？",
-      "「 ボクのこと、知りたい？ 」<br>想知道，关于我的事吗？",
-      "「 逃げ続けるのも、悪くないかもね 」<br>一直逃避下去，或许也不坏呢",
-      "「 君も、こっち側に来る？ 」<br>你也要，来这边吗？"
-    ];
-
-    window.$docsify = {
-      name: `
-        <div class="sidebar-logo-container">
-          <img src="Picture/avatar.jpg" class="sidebar-logo">
-          <span class="sidebar-title-text">Mizuki Bot</span>
-        </div>
-      `,
-      repo: '', 
-      loadSidebar: true,
-      subMaxLevel: 3,
-      auto2top: true,
-      themeColor: '#E97EB3',
-      
-      pagination: {
-        previousText: '← 上一章',
-        nextText: '下一章 →',
-        crossChapter: true,
-      },
-
-      plugins: [
-        function(hook, vm) {
-          hook.doneEach(function() {
-            var links = document.querySelectorAll('.sidebar-nav a');
-            links.forEach(function(link) {
-              link.addEventListener('click', function(e) {
-                if (document.body.clientWidth <= 768) {
-                  document.body.classList.remove('close');
-                  document.body.classList.add('close');
-                }
-              });
-            });
-
-            var quoteBox = document.getElementById('mizuki-quote');
-            if (quoteBox) {
-              var randomQ = quotes[Math.floor(Math.random() * quotes.length)];
-              quoteBox.innerHTML = randomQ;
-            }
-          });
-        }
-      ]
-    }
-  </script>
-
-  <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js"></script>
-</body>
-</html>
+<div style="margin-top: 20px; border-top: 1px solid var(--borderColor);"></div>
+<div class="github-link-bottom">
+  <a href="https://github.com/HX-Wrdzgzs/Mizuki-Bot" target="_blank" style="display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;">
+    <svg height="24" viewBox="0 0 16 16" width="24" style="fill: var(--textColor);"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+    <span style="font-weight: bold; color:#3ea4ed;">GitHub 仓库</span>
+  </a>
+</div>
