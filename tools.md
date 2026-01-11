@@ -41,12 +41,15 @@
 <!-- 游戏工具 -->
 <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 25px;">
 
-<!-- MC -->
+<!-- MC (更新) -->
 <div style="flex: 1; min-width: 300px; background: #f6ffed; border-left: 5px solid #52c41a; padding: 20px; border-radius: 10px;">
 <h3 style="margin-top: 0; color: #52c41a;">🌲 Minecraft 服务器</h3>
-<p style="font-size: 13px; color: #333; font-weight: bold;">版本：<span style="background:#e6f7ff; color:#1890ff; padding: 2px 6px;">Fabric 1.21.4</span></p>
-<div style="background: #fff; border: 1px dashed #52c41a; padding: 8px; border-radius: 6px; font-family: monospace; color: #555; font-size: 13px; margin: 10px 0;">frp-oak.com:13902</div>
-<p style="font-size: 13px;"><code>mc status</code> (查状态)</p>
+<p style="font-size: 13px; color: #333; font-weight: bold;">版本：<span style="background:#e6f7ff; color:#1890ff; padding: 2px 6px; border-radius: 4px;">Fabric 1.21.4</span></p>
+<p style="font-size: 13px; color: #666;">IP地址与整合包请在群内获取。</p>
+<a href="https://qun.qq.com/universal-share/share?ac=1&authKey=OALb4lQ%2Fsp1xe87bvdbdRFs42JprELk5CZRzD4dz411gNvq3hCwb8p78EY9i9ds3&busi_data=eyJncm91cENvZGUiOiIxMDUzOTY0NDMxIiwidG9rZW4iOiJaQ2tVU0xyVmN5QzZ4TXVJV2lsU2lZT2NsK25ydG93SXQrdDBqNkh4TTZ3R3MzT3RoQWcwRUZVdWRFTFcxQnRlIiwidWluIjoiMjMzODY4MDE0OCJ9&data=e370_oIm3BFzkvBqcfheysbbZLuDTnIGtGMAdmDkMz2BDaXussDGZmKy7rw0DGLyounmO8jJMjiyTsXJJqhQLQ&svctype=4&tempid=h5_group_info" target="_blank" style="display: inline-block; background: #52c41a; color: white; padding: 6px 12px; border-radius: 15px; text-decoration: none; font-size: 12px; margin-top: 5px;">
+  👉 点击加入 MC 服务器群
+</a>
+<p style="font-size: 13px; margin-top: 10px;"><code>mc status</code> (查在线状态)</p>
 </div>
 
 <!-- Steam -->
