@@ -7,111 +7,72 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, user-scalable=no">
   
-  <!-- 引入官方 Vue 主题 -->
   <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
 
   <style>
-    /* --- 🎀 全局变量与明暗模式适配 --- */
+    /* --- 🎀 强制浅色粉系主题 --- */
     :root {
       --theme-color: #E97EB3;
-      --base-bg: #f5f7fa;
+      --base-bg: #f5f7fa; /* 浅灰背景 */
       --card-bg: #ffffff;
       --text-color: #34495e;
-      --sidebar-bg: #ffffff;
-      --border-color: #eee;
-    }
-
-    /* 🌑 深色模式 (自动跟随系统) */
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --base-bg: #121212;
-        --card-bg: #1e1e1e;
-        --text-color: #e0e0e0;
-        --sidebar-bg: #1e1e1e;
-        --border-color: #333;
-      }
-      /* 修正深色模式下的特定元素 */
-      .markdown-section code { background-color: #333 !important; color: #f8f8f8 !important; }
-      .markdown-section pre { background-color: #252525 !important; }
     }
     
-    /* 基础背景 */
     body {
       background-color: var(--base-bg) !important;
       color: var(--text-color) !important;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      transition: background-color 0.3s, color 0.3s;
     }
 
-    /* 文档容器卡片化 */
     .markdown-section {
       background-color: var(--card-bg);
       margin: 20px auto;
       padding: 30px 40px !important;
       border-radius: 20px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.03);
       max-width: 900px;
     }
 
-    /* 链接颜色 */
     .markdown-section a { color: var(--theme-color); font-weight: bold; text-decoration: none; }
     .markdown-section img { border-radius: 12px; }
 
     /* 侧边栏 */
-    .sidebar { 
-      background-color: var(--sidebar-bg); 
-      border-right: 1px solid var(--border-color); 
-    }
+    .sidebar { background-color: #fff; border-right: none; }
     .sidebar-nav li.active > a {
       border-right: 3px solid var(--theme-color); 
       color: var(--theme-color);
-      background-color: rgba(233, 126, 179, 0.1); /* 浅粉色背景 */
+      background-color: #fff0f6; 
       border-radius: 8px 0 0 8px;
     }
-    /* 侧边栏文字在深色模式下变白 */
-    .sidebar-nav a { color: var(--text-color) !important; }
 
-    /* =================================================
-       ✨ 悬浮球按钮修复 (绝对居中)
-       ================================================= */
+    /* 悬浮球 (居中修复) */
     .sidebar-toggle {
-      position: fixed !important; 
-      bottom: 40px !important; 
-      right: 30px !important;
+      position: fixed !important; bottom: 30px !important; right: 30px !important;
       top: auto !important; left: auto !important;
-      width: 55px !important; 
-      height: 55px !important;
-      background: var(--theme-color) !important; 
-      border-radius: 50% !important;
-      box-shadow: 0 4px 15px rgba(233, 126, 179, 0.5) !important;
-      
-      /* 强制 Flex 居中 */
-      display: flex !important; 
-      align-items: center !important; 
-      justify-content: center !important;
-      padding: 0 !important;
-      margin: 0 !important;
+      width: 50px !important; height: 50px !important;
+      background: var(--theme-color) !important; border-radius: 50% !important;
+      box-shadow: 0 4px 15px rgba(233, 126, 179, 0.4) !important;
+      display: flex !important; align-items: center !important; justify-content: center !important;
       z-index: 99999 !important;
+      padding: 0 !important;
     }
-    /* 汉堡图标颜色 */
-    .sidebar-toggle span { background-color: #fff !important; }
+    .sidebar-toggle span { background-color: #fff !important; margin-top: 0 !important; margin-bottom: 0 !important;}
 
-    /* 侧边栏 Logo (放大) */
+    /* 侧边栏 Logo */
     .sidebar-logo-container {
-      display: flex; flex-direction: column; align-items: center; padding: 40px 0 20px 0;
+      display: flex; flex-direction: column; align-items: center; padding: 30px 0 10px 0;
     }
     .sidebar-logo {
-      width: 100px; height: 100px; /* 侧边栏头像也稍微加大 */
-      border-radius: 50%; 
-      object-fit: cover; 
+      width: 80px; height: 80px; 
+      border-radius: 50%; object-fit: cover; 
       border: 3px solid var(--theme-color); 
       box-shadow: 0 4px 15px rgba(233, 126, 179, 0.3);
     }
     .sidebar-title-text {
-      font-size: 1.3rem; fontWeight: 900; color: var(--theme-color); margin-top: 15px;
+      font-size: 1.2rem; font-weight: 900; color: var(--theme-color); margin-top: 10px;
     }
     
-    /* 隐藏不需要的搜索元素 */
+    /* 隐藏搜索乱码 */
     .matching-post p, .matching-post code { display: none !important; }
     .matching-post h2 { color: var(--theme-color) !important; }
   </style>
@@ -121,7 +82,6 @@
   <div id="app"></div>
 
   <script>
-    // 语录
     const quotes = [
       "「 ボクは……ボクでいたいだけ 」<br>我只是……想做我自己罢了",
       "「 秘密って、なんだかワクワクしない？ 」<br>所谓秘密，不觉得令人有些兴奋吗？",
@@ -133,7 +93,6 @@
     ];
 
     window.$docsify = {
-      // 侧边栏顶部 (无 Emoji)
       name: `
         <div class="sidebar-logo-container">
           <img src="Picture/avatar.jpg" class="sidebar-logo">
@@ -155,7 +114,6 @@
       plugins: [
         function(hook, vm) {
           hook.doneEach(function() {
-            // 手机端侧边栏收起
             var links = document.querySelectorAll('.sidebar-nav a');
             links.forEach(function(link) {
               link.addEventListener('click', function(e) {
@@ -166,7 +124,6 @@
               });
             });
 
-            // 自动填充语录
             var quoteBox = document.getElementById('mizuki-quote');
             if (quoteBox) {
               var randomQ = quotes[Math.floor(Math.random() * quotes.length)];
@@ -179,7 +136,6 @@
   </script>
 
   <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js"></script>
