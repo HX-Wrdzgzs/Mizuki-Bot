@@ -39,7 +39,7 @@
     <div style="flex: 1; min-width: 200px;">
       <p style="font-size: 13px; color: #555; line-height: 1.6;">
         同时获取 Milk 与 Chongxi 代理服务器的实时状态页。<br>
-        <strong>指令：</strong> <code>看看mai</code> 或 <code>舞萌状态</code> 或 <code>mai状态</code>
+        <strong>指令：</strong> <code>看看mai</code> 或 <code>看看dlx</code> 或 <code>看看华立</code> 或 <code>舞萌状态</code> 或 <code>mai状态</code>
       </p>
     </div>
     <div style="flex: 1; min-width: 200px; text-align: center;">
